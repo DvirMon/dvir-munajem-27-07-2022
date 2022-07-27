@@ -7,6 +7,9 @@ const routes: Routes = [
     path: '', component: LobbyComponent
   },
   {
+    path: 'favorites', loadChildren: () => import('./favorites/favorites.module').then((m) => m.FavoritesModule)
+  },
+{
     path: '', redirectTo: 'lobby', pathMatch: 'full'
   }
 ];
