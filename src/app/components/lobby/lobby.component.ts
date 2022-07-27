@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, filter, map, merge, Observable, of, startWith, switchMap, take } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, merge, Observable, of, startWith, switchMap, take, tap } from 'rxjs';
 import { WeatherService } from 'src/app/utilities/services/weather.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class LobbyComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.result$ = this.getLobbyWeather()
+    this.result$ = this.getLobbyWeather().pipe(tap((res) => console.log(res)))
 
 
 

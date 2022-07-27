@@ -26,7 +26,7 @@
       Name: string;
       GmtOffset: number;
       IsDaylightSaving: boolean;
-      NextOffsetChange?: Date;
+      NextOffsetChange?: Date | string;
   }
 
   export interface Metric {
@@ -80,7 +80,6 @@
       IsAlias: boolean;
       SupplementalAdminAreas: SupplementalAdminArea[];
       DataSets: string[];
-      ParentCity: ParentCity;
   }
 
 
