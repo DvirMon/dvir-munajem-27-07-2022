@@ -12,6 +12,8 @@ export class LobbyComponent implements OnInit {
 
   weatherService: WeatherService = inject(WeatherService)
 
+  defaultQuery :string = 'tel aviv'
+
   ngOnInit(): void {
   }
 
