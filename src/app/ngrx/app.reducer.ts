@@ -7,5 +7,13 @@ export const appReducer = createReducer(
   on(AppActions.SetSearchResult, (state, action) => ({
     ...state,
     searchResult: action.result
-  }))
+  })),
+  on(AppActions.SetCurrentWeather, (state, action) => ({
+    ...state,
+    currentWeather : action.result
+  })),
+  on(AppActions.SetFutureWeather, (state, action) => ({
+    ...state,
+    futureWeather: action.result
+  })),
 );
