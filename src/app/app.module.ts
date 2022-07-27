@@ -10,12 +10,14 @@ import { HttpErrorInterceptor } from './utilities/error.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 
+import { LayoutComponent } from './components/layout/layout.component';
 import { LobbyComponent } from './components/lobby/lobby.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LobbyComponent
+    LayoutComponent,
+    LobbyComponent,
   ],
   imports: [
     BrowserModule,
