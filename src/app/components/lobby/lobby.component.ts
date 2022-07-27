@@ -1,4 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AutocompleteResult } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/utilities/services/weather.service';
 
 @Component({
@@ -12,9 +14,14 @@ export class LobbyComponent implements OnInit {
 
   weatherService: WeatherService = inject(WeatherService)
 
-  defaultQuery :string = 'tel aviv'
+  defaultQuery: string = 'tel aviv'
+
+  result$: Observable<AutocompleteResult[]> = this.weatherService.locationAutocomplete(this.defaultQuery)
 
   ngOnInit(): void {
+
+
+
   }
 
 }
