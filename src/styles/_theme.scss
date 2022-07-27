@@ -1,0 +1,121 @@
+@use "@angular/material" as mat;
+
+/* http://mcg.mbitson.com/ */
+/* For use in src/lib/core/theming/_palette.scss */
+$plt-primary: (
+  50 : #eaf5f9,
+  100 : #cae7f1,
+  200 : #a7d7e7,
+  300 : #84c6dd,
+  400 : #69bad6,
+  500 : #4faecf,
+  600 : #48a7ca,
+  700 : #3f9dc3,
+  800 : #3694bd,
+  900 : #2684b2,
+  A100 : #f0faff,
+  A200 : #bde8ff,
+  A400 : #8ad6ff,
+  A700 : #70cdff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #000000,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$plt-accent: (
+  50 : #e8f6ed,
+  100 : #c6e9d3,
+  200 : #a0dbb6,
+  300 : #79cd98,
+  400 : #5dc282,
+  500 : #40b76c,
+  600 : #3ab064,
+  700 : #32a759,
+  800 : #2a9f4f,
+  900 : #1c903d,
+  A100 : #c9ffd7,
+  A200 : #96ffb1,
+  A400 : #63ff8b,
+  A700 : #4aff78,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+
+
+$plt-primary: mat.define-palette($plt-primary);
+$plt-accent: mat.define-palette($plt-accent,  A200, A100, A400);
+$warn: mat.define-palette(mat.$red-palette);
+
+$weather-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $plt-primary,
+      accent: $plt-accent,
+      warn: $warn,
+    ),
+  )
+);
+
+
+$plt-background: map-get($weather-theme, background);
+$plt-foreground: map-get($weather-theme, foreground);
+
+$p-keys: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900;
+$a-keys: (100: A100, 200: A200, 400: A400, 700: A700, 500 : 500);
+
+
+@mixin weather-theme {
+  @include mat.core();
+  @include mat.all-component-themes($weather-theme);
+
+  :root {
+    @each $key in $p-keys {
+      --p-#{$key}: #{map-get($plt-primary, $key)};
+    }
+
+
+    @each $key, $value in $a-keys {
+      --a-#{$key}: #{map-get($plt-accent, $value)};
+    }
+
+
+    @each $key, $value in $plt-background {
+      --b-#{$key}: #{$value};
+    }
+
+
+    @each $key, $value in $plt-foreground {
+      --f-#{$key}: #{$value};
+    }
+
+
+  }
+}
