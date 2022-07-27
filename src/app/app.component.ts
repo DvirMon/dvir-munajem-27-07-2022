@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { LoggerService } from './services/logger.service';
 
 @Component({
@@ -6,16 +8,26 @@ import { LoggerService } from './services/logger.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app-test';
 
 
   constructor(
-    private loggerService: LoggerService
+    private http: HttpClient
   ) {
 
 
-    this.loggerService.writeToLocalStorage({ message: 'test' })
 
+  }
+
+  ngOnInit(): void {
+    throw new Error('TEST OF ERROR')
+
+    // this.getData().subscribe()
+
+  }
+
+  public getData(): Observable<any> {
+    return this.http.post('http://localhost:3003/api/mail', {})
   }
 }
