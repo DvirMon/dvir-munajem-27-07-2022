@@ -42,7 +42,7 @@ export class LobbyComponent implements OnInit {
   }
 
   private listenToSearchQuery() {
-    return this.searchControl.valueChanges.pipe(debounceTime(3000), distinctUntilChanged(), startWith(this.searchControl.value))
+    return this.searchControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged(), startWith(this.searchControl.value))
   }
 
 }
