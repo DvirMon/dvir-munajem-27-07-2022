@@ -1,3 +1,15 @@
-<div>
-  <!-- <pre>{{ result$ | async | json}}</pre> -->
+<div fxLayout="column" fxLayoutAlign="center center">
+  <header fxLayout="row" fxFlex="10rem" fxLayoutAlign="center center">
+    <mat-form-field fxFlex="25" class="example-full-width" appearance="outline">
+      <mat-label>Enter City</mat-label>
+      <input type="text" matInput [formControl]="searchControl" autocomplete="off" />
+    </mat-form-field>
+  </header>
+  <main>
+    <ng-container *ngIf="result$ | async as result">
+      <pre>
+        {{ result | json }}
+      </pre>
+    </ng-container>
+  </main>
 </div>

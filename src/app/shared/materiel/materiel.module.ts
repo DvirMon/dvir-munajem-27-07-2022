@@ -17,6 +17,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { LayoutModule } from '@angular/cdk/layout';
@@ -42,6 +46,11 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+
+
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    MatInputModule,
 
     MatSnackBarModule,
   ],

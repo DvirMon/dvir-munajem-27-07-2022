@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { AutocompleteResult } from 'src/app/models/autocomplete-result';
 import { CurrentWeatherResult } from 'src/app/models/current-weather-result';
 import { environment } from 'src/environments/environment';
@@ -84,10 +84,15 @@ export class WeatherService {
 
         const result$ = forkJoin({ current: currentWeather$, future: futureWeather$ })
 
-        return result$
+        return result$.pipe(map((result) => {
+          return {
+            query,
+            ...result
+          }
+
+        }))
 
       }
-
 
       return of(null)
     }))
