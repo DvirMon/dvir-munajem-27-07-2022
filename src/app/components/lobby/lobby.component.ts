@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { WeatherService } from 'src/app/utilities/services/weather.service';
 
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
   styleUrls: ['./lobby.component.scss']
 })
-export class LobbyComponent {
+export class LobbyComponent implements OnInit {
 
-  constructor() {}
+  constructor() { }
+
+  weatherService: WeatherService = inject(WeatherService)
+
+  ngOnInit(): void {
+  }
 
 }
