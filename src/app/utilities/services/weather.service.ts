@@ -107,6 +107,10 @@ export class WeatherService {
     return this.getLocationAutocomplete(query).pipe(switchMap((res) => this.store.select(AppSelectors.autocompleteOptions)))
   }
 
+  private getLocalForecast() {
+
+  }
+
   getWeather(query: string): Observable<Partial<WeatherResult | null>> {
 
     return this.getLocationAutocomplete(query).pipe(
@@ -126,7 +130,21 @@ export class WeatherService {
           //   ))
         } else {
 
-          return of({ id : 832392,description : 'Tel Aviv', temp : 30 } as WeatherResult)
+          return of({
+            id: 832392,
+            location: 'Tel Aviv',
+            description: 'cloudy with achance of meatballs ',
+            temp: 30,
+            forecast: [
+              { temp: 30, date: new Date(new Date().setDate(0)) },
+              { temp: 30, date: new Date(new Date().setDate(1)) },
+              { temp: 30, date: new Date(new Date().setDate(2)) },
+              { temp: 30, date: new Date(new Date().setDate(3)) },
+              { temp: 30, date: new Date(new Date().setDate(4)) },
+              { temp: 30, date: new Date(new Date().setDate(5)) },
+              { temp: 30, date: new Date(new Date().setDate(6)) },
+            ]
+          } as WeatherResult)
         }
       }))
   }
