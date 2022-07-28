@@ -9,7 +9,7 @@ import { CurrentWeatherResult } from '../models/current-weather-result';
 
 import { Store } from '@ngrx/store';
 import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
-import { forkJoin, map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { AutocompleteOption } from '../models/autocomplete-option';
 import { WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
 import { FutureResultObject } from '../models/future-weather-result';
@@ -29,12 +29,22 @@ export interface Weather {
 })
 export class WeatherService {
 
-  private baseUrl: string = environment.weatherEndpoint;
+  private _baseUrl: string = environment.weatherEndpoint;
+  private _defaultQuery: string = 'tel aviv'
+  private _searchQuerySource$: BehaviorSubject<string> = new BehaviorSubject<string>(this._defaultQuery)
 
   constructor(
     private http: HttpClient,
     private store: Store<any>
   ) {
+  }
+
+  listenToSearchQuery() {
+    return this._searchQuerySource$.asObservable()
+  }
+
+  emitSearchQuery(value: string) {
+    this._searchQuerySource$.next(value)
   }
 
 
@@ -47,7 +57,7 @@ export class WeatherService {
     this.store.dispatch(action)
     return this.store.select<AutocompleteResult[]>(AppSelectors.searchResult)
     const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
-    // return this.http.get<AutocompleteResult[]>(this.baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(switchMap((result: AutocompleteResult[]) => {
+    // return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(switchMap((result: AutocompleteResult[]) => {
 
 
     // }))
@@ -55,7 +65,7 @@ export class WeatherService {
 
   private getCurrentWeather(locationKey: number): Observable<CurrentWeatherResult[]> {
     const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
-    // return this.http.get<CurrentWeatherResult[]>(this.baseUrl + 'currentconditions/v1/' + locationKey, { params })
+    // return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
     return of(CURRENT_WEATHER)
       .pipe(
         tap((data: CurrentWeatherResult[]) => {
@@ -66,7 +76,7 @@ export class WeatherService {
 
   private getFutureWeather(locationKey: number): Observable<FutureResultObject> {
     const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', true)
-    // return this.http.get<FutureResultObject>(this.baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
+    // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
     return of(FUTURE_WEATHER)
       .pipe(
         tap((data: FutureResultObject) => {
