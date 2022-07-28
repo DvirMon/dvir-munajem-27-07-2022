@@ -141,8 +141,7 @@ export class WeatherService {
               { temp: 30, date: new Date(new Date().setDate(2)) },
               { temp: 30, date: new Date(new Date().setDate(3)) },
               { temp: 30, date: new Date(new Date().setDate(4)) },
-              { temp: 30, date: new Date(new Date().setDate(5)) },
-              { temp: 30, date: new Date(new Date().setDate(6)) },
+
             ]
           } as WeatherResult)
         }

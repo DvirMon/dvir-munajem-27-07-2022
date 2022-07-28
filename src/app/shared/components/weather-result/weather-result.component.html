@@ -15,9 +15,10 @@
         <h1>{{ weatherResult.description | titlecase }}</h1>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+      <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="1rem">
         <ng-container *ngFor="let item of weatherResult.forecast">
           <mat-card
+            fxFlex.lt-sm="100"
             class="forecast"
             fxLayout="column"
             fxLayoutAlign="center center"
