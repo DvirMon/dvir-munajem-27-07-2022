@@ -26,7 +26,7 @@
       Name: string;
       GmtOffset: number;
       IsDaylightSaving: boolean;
-      NextOffsetChange?: Date;
+      NextOffsetChange?: Date | string;
   }
 
   export interface Metric {
@@ -64,6 +64,23 @@
       EnglishName: string;
   }
 
+  // export interface AutocompleteResult {
+  //     Version: number;
+  //     Key: string;
+  //     Type: string;
+  //     Rank: number;
+  //     LocalizedName: string;
+  //     EnglishName: string;
+  //     PrimaryPostalCode: string;
+  //     Region: Region;
+  //     Country: Country;
+  //     AdministrativeArea: AdministrativeArea;
+  //     TimeZone: TimeZone;
+  //     GeoPosition: GeoPosition;
+  //     IsAlias: boolean;
+  //     SupplementalAdminAreas: SupplementalAdminArea[];
+  //     DataSets: string[];
+  // }
   export interface AutocompleteResult {
       Version: number;
       Key: string;
@@ -71,16 +88,6 @@
       Rank: number;
       LocalizedName: string;
       EnglishName: string;
-      PrimaryPostalCode: string;
-      Region: Region;
-      Country: Country;
-      AdministrativeArea: AdministrativeArea;
-      TimeZone: TimeZone;
-      GeoPosition: GeoPosition;
-      IsAlias: boolean;
-      SupplementalAdminAreas: SupplementalAdminArea[];
-      DataSets: string[];
-      ParentCity: ParentCity;
   }
 
 

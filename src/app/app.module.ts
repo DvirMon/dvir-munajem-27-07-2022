@@ -12,6 +12,12 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { LobbyComponent } from './components/lobby/lobby.component';
 import { HttpErrorInterceptor } from './utilities/interceptors/error.interceptor';
 import { ErrorsService } from './utilities/services/error.service';
+import { environment } from 'src/environments/environment';
+
+import { appReducer } from './ngrx/app.reducer';
+import { StoreModule } from '@ngrx/store';
+import { appFeatureKey } from './ngrx/app.state';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -24,8 +30,14 @@ import { ErrorsService } from './utilities/services/error.service';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedModule
-
+    SharedModule,
+    StoreModule.forRoot({
+      [appFeatureKey]: appReducer,
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 50,
+      logOnly: environment.production,
+    }),
   ],
   providers: [
     {

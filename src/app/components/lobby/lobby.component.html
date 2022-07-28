@@ -2,7 +2,25 @@
   <header fxLayout="row" fxFlex="10rem" fxLayoutAlign="center center">
     <mat-form-field fxFlex="25" class="example-full-width" appearance="outline">
       <mat-label>Enter City</mat-label>
-      <input type="text" matInput [formControl]="searchControl" autocomplete="off" />
+      <input
+        type="text"
+        matInput
+        [formControl]="searchControl"
+        autocomplete="off"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        (optionSelected)="onOptionSelected($event)"
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+      >
+        <mat-option
+          *ngFor="let option of options$ | async"
+          [value]="option.value"
+        >
+          {{ option | json }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
   </header>
   <main>
