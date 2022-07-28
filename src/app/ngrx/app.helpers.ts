@@ -1,5 +1,7 @@
 import { FavoriteCard } from "../favorites/components/favorite-card/favorite-card.component";
+import { WeatherForecast } from "../shared/components/weather-result/weather-result.component";
 import { AutocompleteResult } from "../utilities/models/autocomplete-result";
+import { DailyForecast } from "../utilities/models/future-weather-result";
 
 
 export function findResult<T>(items: T[], key: keyof T, value: any) {
@@ -10,8 +12,13 @@ export function mapSearchToOption(items: AutocompleteResult[]) {
   return
 }
 
-export function mapForecast(){
-
+export function mapForecast(forecast: DailyForecast[]) {
+  return forecast.map((item: DailyForecast) => {
+    return {
+      date: item.Date,
+      temp: item.Temperature.Minimum.Value
+    } as WeatherForecast
+  })
 }
 
 export function setSelectedResult(items: AutocompleteResult[], key: number) {

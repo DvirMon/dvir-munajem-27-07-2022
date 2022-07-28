@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 export interface WeatherForecast {
   date: Date,
-  day: string,
   temp: number
 }
 
@@ -49,7 +48,6 @@ export class WeatherResultComponent {
   }
 
   private _emitChange() {
-    const item = this.weatherResult.favorite ? this._setPartialWeatherResult() : null
     this.selectChange.emit({ selected: !this.weatherResult.favorite as boolean, source: this._setPartialWeatherResult() })
   }
 
