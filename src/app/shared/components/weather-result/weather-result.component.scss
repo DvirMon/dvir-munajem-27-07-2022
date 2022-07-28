@@ -6,3 +6,13 @@ mat-icon {
   color: #bababa;
 }
 
+mat-card {
+  &.forecast {
+    min-width: 120px;
+    text-align: center;
+
+    .mat-card-subtitle {
+      margin-bottom: 0px;
+    }
+  }
+}
