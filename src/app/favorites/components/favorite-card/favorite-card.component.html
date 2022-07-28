@@ -1,0 +1,11 @@
+<ng-container *ngIf="item">
+  <mat-card class="forecast" fxLayout="column" fxLayoutAlign="center center">
+    <mat-card-header>
+      <span mat-card-title>{{ item.location | titlecase }}</span>
+      <span mat-card-subtitle>{{ item.temp }} &#8451;</span>
+    </mat-card-header>
+    <mat-card-content>
+      <span >{{ item.description | titlecase }}</span>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
