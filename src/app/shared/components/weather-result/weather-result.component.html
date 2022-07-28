@@ -1,0 +1,21 @@
+<ng-container *ngIf="weatherResult">
+  <mat-card class="weather-card">
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+      <mat-card-title>{{ weatherResult.description }}</mat-card-title>
+      <mat-card-subtitle>{{ weatherResult.temp }} &#8451;</mat-card-subtitle>
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+        <button  mat-button (click)="onSelectChange()">{{selected ? 'Unlike' : 'Like!'}}</button>
+        <mat-icon [class.selected]="selected">favorite</mat-icon>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngFor="let item of weatherResult.forecast">
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <span>{{ item.date | date: "EEEE" }}</span>
+          <span>{{ item.temp }} &#8451;</span>
+          <span></span>
+        </div>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
