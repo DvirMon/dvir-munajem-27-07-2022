@@ -1,11 +1,11 @@
 <div fxLayout="column">
   <main fxLayoutAlign="center center">
     <div fxLayout="row wrap" fxFlex.gt-sm="80">
-      <ng-container *ngFor="let item of items$ | async">
+      <ng-container *ngFor="let item of items$ | async | keyvalue">
         <app-favorite-card
           fxFlex.gt-sm="25"
           fxFlex="100"
-          [item]="item"
+          [item]="item.value"
         ></app-favorite-card>
       </ng-container>
     </div>

@@ -1,6 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
 
+export interface FavoriteCard {
+  id: number,
+  description: string,
+  location: string,
+  temp: number,
+}
+
 @Component({
   selector: 'app-favorite-card',
   templateUrl: './favorite-card.component.html',
@@ -8,7 +15,7 @@ import { WeatherResult } from 'src/app/shared/components/weather-result/weather-
 })
 export class FavoriteCardComponent implements OnInit {
 
-  @Input() item!: Partial<WeatherResult>
+  @Input() item!: FavoriteCard
 
   constructor() { }
 
