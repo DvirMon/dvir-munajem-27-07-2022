@@ -1,34 +1,47 @@
-<div fxLayout="column" fxLayoutAlign="center center">
-  <header fxLayout="row" fxFlex="10rem" fxLayoutAlign="center center">
-    <mat-form-field fxFlex="25" class="example-full-width" appearance="outline">
-      <mat-label>Enter City</mat-label>
-      <input
-        type="text"
-        matInput
-        [formControl]="searchControl"
-        autocomplete="off"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete
-        (optionSelected)="onOptionSelected($event)"
-        autoActiveFirstOption
-        #auto="matAutocomplete"
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div fxFlex="90" fxLayout="column" fxLayoutAlign="center center">
+    <header
+      fxLayout="row"
+      fxFlex.gt-sm="10rem"
+      fxLayoutAlign="center center"
+      fxFlexOffset.lt-md="3rem"
+    >
+      <mat-form-field
+        fxFlex.gt-md="25"
+        fxFlex="100"
+        class="example-full-width"
+        appearance="outline"
       >
-        <mat-option
-          *ngFor="let option of options$ | async"
-          [value]="option.value"
+        <mat-label>Enter City</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="searchControl"
+          autocomplete="off"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          (optionSelected)="onOptionSelected($event)"
+          autoActiveFirstOption
+          #auto="matAutocomplete"
         >
-          {{ option | json }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </header>
-  <main fxLayoutAlign="center center">
-    <ng-container *ngIf="weatherResult$ | async as weatherResult">
-      <app-weather-result
-        fxFlex="50"
-        [weatherResult]="weatherResult"
-      ></app-weather-result>
-    </ng-container>
-  </main>
+          <mat-option
+            *ngFor="let option of options$ | async"
+            [value]="option.value"
+          >
+            {{ option | json }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </header>
+    <main fxLayoutAlign="center center">
+      <ng-container *ngIf="weatherResult$ | async as weatherResult">
+        <app-weather-result
+          fxFlex.gt-md="50"
+          fxFlex="100"
+          [weatherResult]="weatherResult"
+        ></app-weather-result>
+      </ng-container>
+    </main>
+  </div>
 </div>

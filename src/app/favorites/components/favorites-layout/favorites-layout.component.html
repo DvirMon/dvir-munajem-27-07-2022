@@ -1,1 +1,13 @@
-<p>favorites-layout works!</p>
+<div fxLayout="column">
+  <main fxLayoutAlign="center center">
+    <div fxLayout="row wrap" fxFlex.gt-sm="80">
+      <ng-container *ngFor="let item of items$ | async">
+        <app-favorite-card
+          fxFlex.gt-sm="25"
+          fxFlex="100"
+          [item]="item"
+        ></app-favorite-card>
+      </ng-container>
+    </div>
+  </main>
+</div>

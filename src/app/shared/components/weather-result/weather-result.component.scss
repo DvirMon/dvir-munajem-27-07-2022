@@ -7,9 +7,11 @@ mat-icon {
 }
 
 mat-card {
+
+  text-align: center;
   &.forecast {
+    margin: 8px;
     min-width: 120px;
-    text-align: center;
 
     .mat-card-subtitle {
       margin-bottom: 0px;
