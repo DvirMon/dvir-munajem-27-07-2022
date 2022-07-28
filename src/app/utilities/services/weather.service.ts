@@ -1,14 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
-import { LOCATIONS_AUTOCOMPLETE } from 'src/app/mock_data/data';
-import { AutocompleteResult } from 'src/app/models/autocomplete-result';
-import { CurrentWeatherResult } from 'src/app/models/current-weather-result';
 import { environment } from 'src/environments/environment';
 
-import { Store, select } from '@ngrx/store';
-import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
+import { LOCATIONS_AUTOCOMPLETE } from '../mock_data/data';
 
+import { AutocompleteResult } from '../models/autocomplete-result';
+import { CurrentWeatherResult } from '../models/current-weather-result';
+
+import { Store } from '@ngrx/store';
+import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { AutocompleteOption } from '../models/autocomplete-option';
 
 export interface Weather {
 
@@ -35,14 +37,16 @@ export class WeatherService {
 
 
   private getLocationAutocomplete(query: string): Observable<AutocompleteResult[]> {
-    const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
-    return this.http.get<AutocompleteResult[]>(this.baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(switchMap((result: AutocompleteResult[]) => {
 
-      const action = AppActions.SetSearchResult({ result: LOCATIONS_AUTOCOMPLETE })
-      this.store.dispatch(action)
+    const action = AppActions.SetSearchResult({ result: LOCATIONS_AUTOCOMPLETE })
+    this.store.dispatch(action)
 
-      return this.store.select<AutocompleteResult[]>(AppSelectors.searchResult)
-    }))
+    return this.store.select<AutocompleteResult[]>(AppSelectors.searchResult)
+    // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
+    // return this.http.get<AutocompleteResult[]>(this.baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(switchMap((result: AutocompleteResult[]) => {
+
+
+    // }))
   }
 
   private getCurrentWeather(locationKey: number): Observable<CurrentWeatherResult[]> {
@@ -98,13 +102,20 @@ export class WeatherService {
     }))
   }
 
-  getWeather(query: string) {
+  getLocationOptions(query: string): Observable<AutocompleteOption[]> {
+    return this.getLocationAutocomplete(query).pipe(switchMap((res) => this.store.select(AppSelectors.autocompleteOptions)))
+  }
+
+  getWeather(query: string): Observable<string | null> {
+
+    console.log(query)
     return this.getLocationAutocomplete(query).pipe(
 
       switchMap((result: AutocompleteResult[]) => {
 
 
         const item = this.getSingleLocation(query, result)
+
 
         if (!!item) {
 
@@ -115,7 +126,7 @@ export class WeatherService {
           //   ))
         } else {
 
-          return of(null)
+          return of('null')
         }
       }))
   }
