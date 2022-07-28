@@ -3,6 +3,7 @@ import { appFeatureKey, AppState } from './app.state';
 import { AutocompleteResult } from '../utilities/models/autocomplete-result';
 import { AutocompleteOption } from '../utilities/models/autocomplete-option';
 import { WeatherResult } from '../shared/components/weather-result/weather-result.component';
+import { mapForecast } from './app.helpers';
 
 export const root = createFeatureSelector<AppState>(appFeatureKey);
 
@@ -13,15 +14,9 @@ export const searchResult = createSelector(root, (state) =>
 export const currentResult = createSelector(root, (state) => {
   const { currentWeather } = state
 
-  const tempData = {
-    description: 'cloudy with a chance of meatballs ',
-    temp: 30
-  }
-
   return {
-    // description: currentWeather?.WeatherText,
-    // temp: currentWeather?.WeatherIcon
-    ...tempData
+    description: currentWeather?.WeatherText,
+    temp: currentWeather?.Temperature.Metric.Value
   } as Partial<WeatherResult>
 })
 
@@ -29,17 +24,10 @@ export const futureResult = createSelector(root, (state) => {
 
   const { futureWeather } = state
 
-  const tempData = [
-    { temp: 30, date: new Date(new Date().setDate(0)) },
-    { temp: 30, date: new Date(new Date().setDate(1)) },
-    { temp: 30, date: new Date(new Date().setDate(2)) },
-    { temp: 30, date: new Date(new Date().setDate(3)) },
-    { temp: 30, date: new Date(new Date().setDate(4)) },
-
-  ]
+  const forecast = mapForecast(futureWeather?.DailyForecasts!)
 
   return {
-    forecast: tempData
+    forecast
   } as Partial<WeatherResult>
 })
 

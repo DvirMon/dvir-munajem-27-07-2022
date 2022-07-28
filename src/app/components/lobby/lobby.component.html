@@ -23,11 +23,12 @@
         <mat-autocomplete
           (optionSelected)="onOptionSelected($event)"
           autoActiveFirstOption
+          [displayWith]="displayFn"
           #auto="matAutocomplete"
         >
           <mat-option
             *ngFor="let option of options$ | async"
-            [value]="option.value"
+            [value]="option"
           >
             {{ option | json }}
           </mat-option>

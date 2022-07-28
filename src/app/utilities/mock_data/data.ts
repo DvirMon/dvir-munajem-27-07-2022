@@ -232,13 +232,13 @@ export const FUTURE_WEATHER: FutureResultObject = {
       EpochDate: 1658980800,
       Temperature: {
         Minimum: {
-          Value: 76.0,
-          Unit: "F",
+          Value: 24.0,
+          Unit: "C",
           UnitType: 18
         },
         Maximum: {
           Value: 94.0,
-          Unit: "F",
+          Unit: "C",
           UnitType: 18
         }
       },
@@ -264,12 +264,12 @@ export const FUTURE_WEATHER: FutureResultObject = {
       Temperature: {
         Minimum: {
           Value: 76.0,
-          Unit: "F",
+          Unit: "C",
           UnitType: 18
         },
         Maximum: {
           Value: 92.0,
-          Unit: "F",
+          Unit: "C",
           UnitType: 18
         }
       },
@@ -295,12 +295,12 @@ export const FUTURE_WEATHER: FutureResultObject = {
       Temperature: {
         Minimum: {
           Value: 74.0,
-          Unit: "F",
+          Unit: "C",
           UnitType: 18
         },
         Maximum: {
           Value: 90.0,
-          Unit: "F",
+          Unit: "C",
           UnitType: 18
         }
       },
@@ -326,12 +326,12 @@ export const FUTURE_WEATHER: FutureResultObject = {
       Temperature: {
         Minimum: {
           Value: 74.0,
-          Unit: "F",
+          Unit: "C",
           UnitType: 18
         },
         Maximum: {
           Value: 88.0,
-          Unit: "F",
+          Unit: "C",
           UnitType: 18
         }
       },
@@ -357,12 +357,12 @@ export const FUTURE_WEATHER: FutureResultObject = {
       Temperature: {
         Minimum: {
           Value: 74.0,
-          Unit: "F",
+          Unit: "C",
           UnitType: 18
         },
         Maximum: {
           Value: 89.0,
-          Unit: "F",
+          Unit: "C",
           UnitType: 18
         }
       },
