@@ -83,25 +83,6 @@ export class WeatherService {
   }
 
 
-  private _getSelectedWeatherResult(query: string): Observable<WeatherResult> {
-    return this.getLocationAutocomplete(query).pipe(
-      switchMap((res) => this.store.select(AppSelectors.autocompleteOptions)
-        .pipe(
-          map((options: AutocompleteOption[]) => options.find((option) => option.value.toLowerCase().includes(query.toLowerCase()))!))),
-      map((option: AutocompleteOption) => {
-        return {
-          id: option.key,
-          location: option.value,
-        } as WeatherResult
-      }),
-      tap((data: WeatherResult) => {
-        const action = AppActions.SetSelectedResult({ data })
-        this.store.dispatch(action)
-      })
-    )
-
-  }
-
   private _getWeatherData(key: number): Observable<Partial<WeatherResult>> {
 
     const locationKey: number = Number(key)
@@ -120,14 +101,15 @@ export class WeatherService {
 
     const { key, value } = option
 
+
     if (!!option) {
 
       return this._getWeatherData(key).pipe(
         map((data: Partial<WeatherResult>) => {
           return {
+            ...data,
             id: key,
             location: value,
-            ...data
           } as WeatherResult
         }),
         switchMap((data: WeatherResult) => {

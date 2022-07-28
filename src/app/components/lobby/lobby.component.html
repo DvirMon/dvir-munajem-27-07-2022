@@ -14,8 +14,10 @@
       >
         <mat-label>Enter City</mat-label>
         <input
+          #input
           type="text"
           matInput
+          (input)="onQueryChange(input.value)"
           [formControl]="searchControl"
           autocomplete="off"
           [matAutocomplete]="auto"
@@ -26,10 +28,7 @@
           [displayWith]="displayFn"
           #auto="matAutocomplete"
         >
-          <mat-option
-            *ngFor="let option of options$ | async"
-            [value]="option"
-          >
+          <mat-option *ngFor="let option of options$ | async" [value]="option">
             {{ option | json }}
           </mat-option>
         </mat-autocomplete>
