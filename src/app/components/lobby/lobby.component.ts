@@ -3,6 +3,7 @@ import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, of, startWith, switchMap, take, tap } from 'rxjs';
+import { WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
 import { AutocompleteOption } from 'src/app/utilities/models/autocomplete-option';
 import { WeatherService } from 'src/app/utilities/services/weather.service';
 
@@ -22,7 +23,7 @@ export class LobbyComponent implements OnInit {
 
   searchControl = this.nfb.control('tel aviv')
 
-  result$!: Observable<any>
+  weatherResult$!: Observable<Partial<WeatherResult> | null>
   options$!: Observable<AutocompleteOption[]>
 
   selectedOptionSource$!: BehaviorSubject<string>
@@ -34,8 +35,8 @@ export class LobbyComponent implements OnInit {
 
     this.selectedOptionSource$ = new BehaviorSubject<string>(this.searchControl.value)
     this.selectedOption$ = this.selectedOptionSource$.asObservable()
-    
-    this.result$ = this.getLobbyWeather()
+
+    this.weatherResult$ = this.getLobbyWeather()
 
   }
 

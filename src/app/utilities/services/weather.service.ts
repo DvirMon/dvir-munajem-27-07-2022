@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
 import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { AutocompleteOption } from '../models/autocomplete-option';
+import { WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
 
 export interface Weather {
 
@@ -106,9 +107,8 @@ export class WeatherService {
     return this.getLocationAutocomplete(query).pipe(switchMap((res) => this.store.select(AppSelectors.autocompleteOptions)))
   }
 
-  getWeather(query: string): Observable<string | null> {
+  getWeather(query: string): Observable<Partial<WeatherResult | null>> {
 
-    console.log(query)
     return this.getLocationAutocomplete(query).pipe(
 
       switchMap((result: AutocompleteResult[]) => {
@@ -119,14 +119,14 @@ export class WeatherService {
 
         if (!!item) {
 
-          return of(item.Key)
+          return of({ id: Number(item.Key) } as Partial<WeatherResult>)
           // .pipe(
           //   switchMap((key: string) =>
           //     this.setWeatherData({ key, location: item.LocalizedName })
           //   ))
         } else {
 
-          return of('null')
+          return of({ id : 832392,description : 'Tel Aviv', temp : 30 } as WeatherResult)
         }
       }))
   }
