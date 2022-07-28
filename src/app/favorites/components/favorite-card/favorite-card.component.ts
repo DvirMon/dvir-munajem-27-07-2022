@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
+import { WeatherService } from 'src/app/utilities/services/weather.service';
 
 export interface FavoriteCard {
   id: number,
@@ -13,13 +15,18 @@ export interface FavoriteCard {
   templateUrl: './favorite-card.component.html',
   styleUrls: ['./favorite-card.component.scss']
 })
-export class FavoriteCardComponent implements OnInit {
+export class FavoriteCardComponent {
 
   @Input() item!: FavoriteCard
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private weatherService: WeatherService
+  ) { }
 
-  ngOnInit(): void {
+  onSelect() {
+    this.weatherService.emitSearchQuery(this.item.location)
+    this.router.navigateByUrl('/')
   }
 
 }

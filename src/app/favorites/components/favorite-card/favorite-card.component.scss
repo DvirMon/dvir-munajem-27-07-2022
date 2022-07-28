@@ -2,6 +2,13 @@
   padding: 8px;
 
   mat-card.favorite {
+    padding: 0px;
+
+    button.mat-button {
+      width: 100%;
+      height: 100%;
+    }
+
     .mat-card-subtitle {
       margin-bottom: 0px;
     }
