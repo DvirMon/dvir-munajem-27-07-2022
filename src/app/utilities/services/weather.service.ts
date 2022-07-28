@@ -108,7 +108,11 @@ export class WeatherService {
 
         if (!!item) {
 
-          return of(item.Key).pipe(switchMap((key: string) => this.setWeatherData({ key, location: item.LocalizedName })))
+          return of(item.Key)
+          // .pipe(
+          //   switchMap((key: string) =>
+          //     this.setWeatherData({ key, location: item.LocalizedName })
+          //   ))
         } else {
 
           return of(null)
