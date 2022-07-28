@@ -26,24 +26,16 @@ export interface SelectChangeEvent {
   templateUrl: './weather-result.component.html',
   styleUrls: ['./weather-result.component.scss']
 })
-export class WeatherResultComponent implements OnInit {
+export class WeatherResultComponent {
 
 
   @Input() weatherResult!: Partial<WeatherResult>
-
-  selected!: boolean
 
   @Output() selectChange: EventEmitter<SelectChangeEvent> = new EventEmitter();
 
   constructor() { }
 
-  ngOnInit(): void {
-
-    this.selected = this.weatherResult.favorite as boolean;
-  }
-
   onSelectChange(): void {
-    this.selected = !this.selected
     this._emitChange()
   }
 
@@ -57,7 +49,8 @@ export class WeatherResultComponent implements OnInit {
   }
 
   private _emitChange() {
-    this.selectChange.emit({ selected: this.selected, source: this._setPartialWeatherResult() })
+    const item = this.weatherResult.favorite ? this._setPartialWeatherResult() : null
+    this.selectChange.emit({ selected: !this.weatherResult.favorite as boolean, source: this._setPartialWeatherResult() })
   }
 
 

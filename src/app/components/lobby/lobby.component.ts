@@ -34,12 +34,14 @@ export class LobbyComponent implements OnInit {
 
   ngOnInit(): void {
 
+    console.log('init')
+
     this.options$ = this._getLocationOptions()
 
     this.selectedOptionSource$ = new BehaviorSubject<string>(this.searchControl.value)
     this.selectedOption$ = this.selectedOptionSource$.asObservable()
 
-    this.weatherResult$ = this._getLobbyWeather()
+    this.weatherResult$ = this.getWeatherResult()
 
   }
 
@@ -59,14 +61,14 @@ export class LobbyComponent implements OnInit {
     return merge(true$, false$)
   }
 
-  private _getLobbyWeather() {
+  private getWeatherResult() {
     const true$ = this.selectedOption$.pipe(
       filter((query: string) => !!query),
-      switchMap((query: string) => this.weatherService.getWeather(query)))
+      switchMap((query: string) => this.weatherService.getWeatherResult(query)))
 
     const false$ = this.selectedOption$.pipe(
       filter((query: string) => !query),
-      switchMap(() => this.weatherService.getWeather('tel aviv')))
+      switchMap(() => this.weatherService.getWeatherResult('tel aviv')))
 
     return merge(true$, false$)
   }
