@@ -21,9 +21,11 @@ export const futureResult = createSelector(root, (state) =>
 
 export const weatherResult = createSelector(root, (state) => { return null })
 
-export const autocompleteOptions  = createSelector(searchResult, (state) => state.map((result: AutocompleteResult) => {
+export const autocompleteOptions = createSelector(searchResult, (state) => state.map((result: AutocompleteResult) => {
   return {
     value: result.LocalizedName,
     key: Number(result.Key)
   }
 }))
+
+export const favorites = createSelector(root, (state) => state.favorites)

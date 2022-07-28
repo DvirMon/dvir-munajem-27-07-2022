@@ -1,11 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 
 export interface WeatherForecast {
   date: Date,
   day: string,
   temp: number
-
 }
 
 export interface WeatherResult {
@@ -15,6 +14,11 @@ export interface WeatherResult {
   temp: number,
   forecast: WeatherForecast[]
   favorite: boolean
+}
+
+export interface SelectChangeEvent {
+  selected: boolean,
+  source: Partial<WeatherResult>
 }
 
 @Component({
@@ -29,6 +33,8 @@ export class WeatherResultComponent implements OnInit {
 
   selected!: boolean
 
+  @Output() selectChange: EventEmitter<SelectChangeEvent> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -36,8 +42,25 @@ export class WeatherResultComponent implements OnInit {
     this.selected = this.weatherResult.favorite as boolean;
   }
 
-  onSelectChange() {
+  onSelectChange(): void {
     this.selected = !this.selected
+    this._emitChange()
   }
+
+  private _setPartialWeatherResult(): Partial<WeatherResult> {
+    return {
+      id: this.weatherResult.id,
+      description: this.weatherResult.description,
+      location: this.weatherResult.location,
+      temp: this.weatherResult.temp,
+    }
+  }
+
+  private _emitChange() {
+    this.selectChange.emit({ selected: this.selected, source: this._setPartialWeatherResult() })
+  }
+
+
+
 
 }

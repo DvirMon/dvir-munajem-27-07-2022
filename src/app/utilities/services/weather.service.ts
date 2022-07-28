@@ -39,7 +39,7 @@ export class WeatherService {
 
   private getLocationAutocomplete(query: string): Observable<AutocompleteResult[]> {
 
-    const action = AppActions.SetSearchResult({ result: LOCATIONS_AUTOCOMPLETE })
+    const action = AppActions.SetSearchResult({ data: LOCATIONS_AUTOCOMPLETE })
     this.store.dispatch(action)
 
     return this.store.select<AutocompleteResult[]>(AppSelectors.searchResult)
