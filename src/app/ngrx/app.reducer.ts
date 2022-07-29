@@ -18,8 +18,9 @@ export const appReducer = createReducer(
 
   on(AppActions.SetCurrentWeather, (state, action) => ({
     ...state,
-    currentWeather: action.data
+    currentWeather: { ...action.data }
   })),
+
   on(AppActions.SetFutureWeather, (state, action) => ({
     ...state,
     futureWeather: action.data
