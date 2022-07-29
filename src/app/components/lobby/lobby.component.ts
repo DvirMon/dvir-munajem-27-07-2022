@@ -2,16 +2,19 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, of, startWith, Subject, switchMap, take, tap } from 'rxjs';
-import { Action } from 'rxjs/internal/scheduler/Action';
-import { FavoriteCard } from 'src/app/favorites/components/favorite-card/favorite-card.component';
-import { AppActions } from 'src/app/ngrx/app.types';
+
 import { SelectChangeEvent, WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
+import { FavoriteCard } from 'src/app/favorites/components/favorite-card/favorite-card.component';
 import { AutocompleteOption } from 'src/app/utilities/models/autocomplete-option';
 import { WeatherService } from 'src/app/utilities/services/weather.service';
 
+import { AppActions } from 'src/app/ngrx/app.types';
+import { Store } from '@ngrx/store';
+
+import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, Subject, switchMap, tap } from 'rxjs';
+
 @Component({
+
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
   styleUrls: ['./lobby.component.scss']
@@ -25,7 +28,7 @@ export class LobbyComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private nfb: NonNullableFormBuilder,
-    private store: Store<any>
+    private store: Store<any>,
   ) { }
 
 
@@ -41,6 +44,8 @@ export class LobbyComponent implements OnInit {
     this.searchControl = this.nfb.control({} as AutocompleteOption)
     this.options$ = this._getLocationOptions()
     this.weatherResult$ = this._getWeatherResult()
+
+
 
   }
 
@@ -88,13 +93,13 @@ export class LobbyComponent implements OnInit {
     this.queryChangeSource$.next(query)
   }
 
-  onOptionSelected(event: MatAutocompleteSelectedEvent) : void {
+  onOptionSelected(event: MatAutocompleteSelectedEvent): void {
     const option: AutocompleteOption = event.option.value;
     this.selectedOptionSource$.next(option);
     this.queryChangeSource$.next(option.value);
   }
 
-  onSelectChange({ selected, source }: SelectChangeEvent) : void {
+  onSelectChange({ selected, source }: SelectChangeEvent): void {
     const action = selected
       ? AppActions.SetFavorite({ data: source as FavoriteCard })
       : AppActions.DeleteFavorite({ data: source as FavoriteCard });

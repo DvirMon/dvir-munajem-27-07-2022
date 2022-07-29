@@ -56,11 +56,8 @@ export class WeatherService {
     const action = AppActions.SetSearchResult({ data })
     this.store.dispatch(action)
     return this.store.select<AutocompleteResult[]>(AppSelectors.searchResult)
-    const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
-    // return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(switchMap((result: AutocompleteResult[]) => {
-
-
-    // }))
+    // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
+    // return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete')
   }
 
   private getCurrentWeather(locationKey: number): Observable<CurrentWeatherResult[]> {
@@ -76,6 +73,7 @@ export class WeatherService {
 
   private getFutureWeather(locationKey: number): Observable<FutureResultObject> {
     const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', true)
+    // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
     // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
     return of(FUTURE_WEATHER)
       .pipe(
