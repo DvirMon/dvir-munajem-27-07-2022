@@ -20,9 +20,5 @@ export const initialAppState: AppState = {
   selectedResult: null,
   currentWeather: {} as CurrentWeatherResult,
   futureWeather: null,
-  favorites: new Map<number, FavoriteCard>([
-    [226396, { id: 226396, location: 'Tokyo' } as FavoriteCard],
-    [106770, { id: 106770, location: 'Taiyuan' } as FavoriteCard]
-
-  ])
+  favorites: new Map<number, FavoriteCard>()
 };
