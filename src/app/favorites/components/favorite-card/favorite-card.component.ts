@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
+import { Temperature } from 'src/app/utilities/models/current-weather-result';
 import { WeatherService } from 'src/app/utilities/services/weather.service';
 
 export interface FavoriteCard {
   id: number,
   description: string,
   location: string,
-  temp: number,
+  temp: Temperature,
 }
 
 @Component({

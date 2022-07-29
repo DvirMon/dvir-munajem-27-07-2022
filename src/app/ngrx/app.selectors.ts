@@ -22,7 +22,7 @@ export const currentResult = createSelector(root, (state) => {
 
   return {
     description: currentWeather?.WeatherText,
-    temp: currentWeather?.Temperature.Metric.Value
+    temp: currentWeather?.Temperature
   } as Partial<WeatherResult>
 })
 

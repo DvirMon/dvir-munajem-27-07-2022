@@ -2,8 +2,14 @@
   <mat-card class="weather-card">
     <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
       <mat-card-title>{{ weatherResult.location | titlecase }}</mat-card-title>
-      <mat-card-subtitle>{{ weatherResult.temp }} &#8451;</mat-card-subtitle>
+      <mat-card-subtitle
+        >{{ weatherResult.temp! | temperature: defaultTemp }}
+        <span [innerHTML]="defaultTemp | degree"></span>
+      </mat-card-subtitle>
       <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+        <button mat-icon-button (click)="onTempChange()">
+          <span [innerHTML]="defaultTemp | degree"></span>
+        </button>
         <button mat-button (click)="onSelectChange()">
           {{ weatherResult.favorite ? "Unlike" : "Like!" }}
         </button>
@@ -25,7 +31,7 @@
           >
             <mat-card-header>
               <span mat-card-title>{{ item.date | date: "EEEE" }}</span>
-              <span mat-card-subtitle>{{ item.temp }} &#8451;</span>
+              <!-- <span mat-card-subtitle>{{ item.temp }} </span> -->
             </mat-card-header>
           </mat-card>
         </ng-container>
