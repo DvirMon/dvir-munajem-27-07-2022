@@ -6,12 +6,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { WeatherResultComponent } from './components/weather-result/weather-result.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PluckPipe } from './pipes/pluck.pipe';
+import { HighLightPipe } from './pipes/high-light.pipe';
 
 @NgModule({
   declarations: [
     WeatherResultComponent,
     PageNotFoundComponent,
-    PluckPipe
+    PluckPipe,
+    HighLightPipe
   ],
   imports: [
     CommonModule,
@@ -26,8 +28,9 @@ import { PluckPipe } from './pipes/pluck.pipe';
 
     WeatherResultComponent,
     PageNotFoundComponent,
-    
-    PluckPipe
+
+    PluckPipe,
+    HighLightPipe
   ],
 })
 export class SharedModule {}
