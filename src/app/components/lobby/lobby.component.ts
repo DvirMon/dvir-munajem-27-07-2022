@@ -93,7 +93,7 @@ export class LobbyComponent implements OnInit {
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
     const option: AutocompleteOption = event.option.value;
     this.selectedOptionSource$.next(option);
-    this.queryChangeSource$.next(option.value);
+    this.queryChangeSource$.next(option.value.LocalizedName);
   }
 
   onSelectChange({ selected, source }: SelectChangeEvent): void {
@@ -104,7 +104,8 @@ export class LobbyComponent implements OnInit {
   }
 
   displayFn(option: AutocompleteOption): string {
-    return option && option.value ? option.value : '';
+
+    return option && option.value ? `${option.value.LocalizedName}`  : '';
   }
 
 
