@@ -29,7 +29,8 @@
           #auto="matAutocomplete"
         >
           <mat-option *ngFor="let option of options$ | async" [value]="option">
-            {{ option | json }}
+            {{ option.value | pluck: ["LocalizedName"] }},
+            {{ option.value | pluck: ["Country"] | pluck: ["LocalizedName"] }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

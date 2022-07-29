@@ -70,7 +70,7 @@ export const weatherResult = createSelector(root, currentResult, futureResult, i
 
 export const autocompleteOptions = createSelector(searchResult, (state) => state.map((result: AutocompleteResult) => {
   return {
-    value: result.LocalizedName,
+    value: result,
     key: Number(result.Key)
   } as AutocompleteOption
 }))
