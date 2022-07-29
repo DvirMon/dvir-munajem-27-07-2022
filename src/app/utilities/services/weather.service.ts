@@ -50,12 +50,12 @@ export class WeatherService {
 
   private getLocationAutocomplete(query: string): Observable<AutocompleteResult[]> {
 
-    const data = LOCATIONS_AUTOCOMPLETE.filter((item: AutocompleteResult) => item.LocalizedName.toLowerCase().includes(query.toLowerCase()));
-    const action = AppActions.SetSearchResult({ data })
-    this.store.dispatch(action)
-    return of(data)
-    // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
-    // return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete')
+    // const data = LOCATIONS_AUTOCOMPLETE.filter((item: AutocompleteResult) => item.LocalizedName.toLowerCase().includes(query.toLowerCase()));
+    // const action = AppActions.SetSearchResult({ data })
+    // this.store.dispatch(action)
+    // return of(data)
+    const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
+    return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete')
   }
 
   private getCurrentWeather(locationKey: number): Observable<CurrentWeatherResult> {
@@ -67,8 +67,8 @@ export class WeatherService {
       filter((res) => Object.entries(res).length === 0),
       switchMap(() => {
         const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
-        // return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
-        return of(CURRENT_WEATHER)
+        return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
+        // return of(CURRENT_WEATHER)
           .pipe(
             map((data: CurrentWeatherResult[]) => {
               const action = AppActions.SetCurrentWeather({ data: data[0] })
@@ -94,8 +94,8 @@ export class WeatherService {
       switchMap(() => {
         // console.log('future server')
         const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', true)
-        // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
-        return of(FUTURE_WEATHER)
+        return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
+        // return of(FUTURE_WEATHER)
           .pipe(
             tap((data: FutureResultObject) => {
               const action = AppActions.SetFutureWeather({ data })
@@ -114,7 +114,7 @@ export class WeatherService {
 
 
   getLocationOptions(query: string): Observable<AutocompleteOption[]> {
-    return this.getLocationAutocomplete(query).pipe(switchMap((res) => this.store.select(AppSelectors.autocompleteOptions)))
+    return this.getLocationAutocomplete(query).pipe(switchMap((_) => this.store.select(AppSelectors.autocompleteOptions)))
   }
 
 
