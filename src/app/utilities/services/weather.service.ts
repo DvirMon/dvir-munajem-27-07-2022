@@ -55,7 +55,11 @@ export class WeatherService {
     // this.store.dispatch(action)
     // return of(data)
     const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
-    return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete')
+    return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
+      tap((data: AutocompleteResult[]) => {
+        const action = AppActions.SetSearchResult({ data })
+        this.store.dispatch(action)
+      }))
   }
 
   private getCurrentWeather(locationKey: number): Observable<CurrentWeatherResult> {
@@ -67,8 +71,8 @@ export class WeatherService {
       filter((res) => Object.entries(res).length === 0),
       switchMap(() => {
         const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
-        return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
-        // return of(CURRENT_WEATHER)
+        // return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
+        return of(CURRENT_WEATHER)
           .pipe(
             map((data: CurrentWeatherResult[]) => {
               const action = AppActions.SetCurrentWeather({ data: data[0] })
@@ -94,8 +98,8 @@ export class WeatherService {
       switchMap(() => {
         // console.log('future server')
         const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', true)
-        return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
-        // return of(FUTURE_WEATHER)
+        // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
+        return of(FUTURE_WEATHER)
           .pipe(
             tap((data: FutureResultObject) => {
               const action = AppActions.SetFutureWeather({ data })
@@ -128,7 +132,7 @@ export class WeatherService {
     const result$ = forkJoin({ current: currentWeather$, future: futureWeather$ });
 
     return result$.pipe(map((_) => {
-}))
+    }))
   }
 
   getWeatherResult(option: AutocompleteOption): Observable<WeatherResult | null> {
