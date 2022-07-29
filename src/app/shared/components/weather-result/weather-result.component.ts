@@ -1,16 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Temperature } from 'src/app/utilities/models/current-weather-result';
+import { DailyTemperature } from 'src/app/utilities/models/future-weather-result';
 
 
 export interface WeatherForecast {
   date: Date,
-  temp: number
+  temp: DailyTemperature
 }
 
 export interface WeatherResult {
   id: number
   location: string
   description: string
-  temp: number,
+  temp: Temperature,
   forecast: WeatherForecast[]
   favorite: boolean
 }
@@ -18,6 +20,9 @@ export interface WeatherResult {
 export interface SelectChangeEvent {
   selected: boolean,
   source: Partial<WeatherResult>
+}
+export interface TempChangeEvent {
+  metric: boolean,
 }
 
 @Component({
@@ -27,15 +32,23 @@ export interface SelectChangeEvent {
 })
 export class WeatherResultComponent {
 
+  defaultTemp: 'C' | 'F' = 'C'
+
 
   @Input() weatherResult!: Partial<WeatherResult>
+  @Input() metric!: boolean | null
 
-  @Output() selectChange: EventEmitter<SelectChangeEvent> = new EventEmitter();
+  @Output() selectChanged: EventEmitter<SelectChangeEvent> = new EventEmitter();
+  @Output() degreeChanged: EventEmitter<TempChangeEvent> = new EventEmitter();
 
   constructor() { }
 
   onSelectChange(): void {
     this._emitChange()
+  }
+
+  onDegreeChange() {
+    this.degreeChanged.emit({ metric: !this.metric })
   }
 
   private _setPartialWeatherResult(): Partial<WeatherResult> {
@@ -48,7 +61,7 @@ export class WeatherResultComponent {
   }
 
   private _emitChange() {
-    this.selectChange.emit({ selected: !this.weatherResult.favorite as boolean, source: this._setPartialWeatherResult() })
+    this.selectChanged.emit({ selected: !this.weatherResult.favorite as boolean, source: this._setPartialWeatherResult() })
   }
 
 

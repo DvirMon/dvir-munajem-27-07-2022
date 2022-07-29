@@ -14,4 +14,6 @@ export const SetSelectedResult = createAction('[SET] Selected result', props<{ d
 export const SetFavorite = createAction('[SET]  Add favorite location', props<{ data: FavoriteCard }>())
 export const DeleteFavorite = createAction('[CLEAR]  Remove favorite location', props<{ data: FavoriteCard }>())
 
+export const SetDegree = createAction('[SET]  UPDATE DEGREE CHANGE', props<{ data: boolean }>())
+
 

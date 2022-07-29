@@ -3,12 +3,12 @@ import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
 
-import { SelectChangeEvent, WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
+import { SelectChangeEvent, TempChangeEvent, WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
 import { FavoriteCard } from 'src/app/favorites/components/favorite-card/favorite-card.component';
 import { AutocompleteOption } from 'src/app/utilities/models/autocomplete-option';
 import { WeatherService } from 'src/app/utilities/services/weather.service';
 
-import { AppActions } from 'src/app/ngrx/app.types';
+import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
 import { Store } from '@ngrx/store';
 
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, Subject, switchMap, tap } from 'rxjs';
@@ -36,6 +36,7 @@ export class LobbyComponent implements OnInit {
 
   weatherResult$!: Observable<Partial<WeatherResult> | null>
   options$!: Observable<AutocompleteOption[]>
+  metric$!: Observable<boolean>
 
   selectedOptionSource$: BehaviorSubject<AutocompleteOption | null> = new BehaviorSubject<AutocompleteOption | null>(null)
   queryChangeSource$: Subject<string> = new Subject<string>()
@@ -44,6 +45,7 @@ export class LobbyComponent implements OnInit {
     this.searchControl = this.nfb.control({} as AutocompleteOption)
     this.options$ = this._getLocationOptions()
     this.weatherResult$ = this._getWeatherResult()
+    this.metric$ = this.store.select(AppSelectors.isMetric)
   }
 
   private _initOptions(): Observable<AutocompleteOption[]> {
@@ -103,9 +105,15 @@ export class LobbyComponent implements OnInit {
     this.store.dispatch(action)
   }
 
+  onDegreeChange({ metric }: TempChangeEvent): void {
+    const action = AppActions.SetDegree({ data: metric });
+    this.store.dispatch(action)
+
+  }
+
   displayFn(option: AutocompleteOption): string {
 
-    return option && option.value ? `${option.value.LocalizedName}`  : '';
+    return option && option.value ? `${option.value.LocalizedName}` : '';
   }
 
 

@@ -16,7 +16,7 @@ export function mapForecast(forecast: DailyForecast[]) {
   return forecast.map((item: DailyForecast) => {
     return {
       date: item.Date,
-      temp: item.Temperature.Minimum.Value
+      temp: item.Temperature
     } as WeatherForecast
   })
 }

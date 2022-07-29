@@ -92,25 +92,32 @@ export class WeatherService {
   private getFutureWeather(locationKey: number): Observable<FutureResultObject | null> {
 
     const futureWeatherResult$ = this.store.select(AppSelectors.futureWeatherResult).pipe(take(1));
+    const metric$ = this.store.select(AppSelectors.isMetric)
 
     const server$ = futureWeatherResult$.pipe(
-      filter((res) => !res),
+      // filter((res) => !res),
       switchMap(() => {
         // console.log('future server')
-        const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', true)
-        // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
-        return of(FUTURE_WEATHER)
-          .pipe(
-            tap((data: FutureResultObject) => {
-              const action = AppActions.SetFutureWeather({ data })
-              this.store.dispatch(action)
-            })
-          )
+
+        return metric$.pipe(
+          switchMap((metric: boolean) => {
+          // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
+          // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
+          return of(FUTURE_WEATHER)
+            .pipe(
+              tap((data: FutureResultObject) => {
+                const action = AppActions.SetFutureWeather({ data })
+                this.store.dispatch(action)
+              })
+            )
+        }))
+
+
       }))
 
     const local$ = futureWeatherResult$.pipe(filter((res) => res !== null))
 
-    return merge(server$, local$);
+    return merge(server$);
 
 
   }
@@ -129,7 +136,7 @@ export class WeatherService {
     const currentWeather$ = this.getCurrentWeather(locationKey);
     const futureWeather$ = this.getFutureWeather(locationKey);
 
-    const result$ = forkJoin({ current: currentWeather$, future: futureWeather$ });
+    const result$ = combineLatest({ current: currentWeather$, future: futureWeather$ });
 
     return result$.pipe(map((_) => {
     }))

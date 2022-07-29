@@ -43,7 +43,9 @@
           fxFlex.gt-md="50"
           fxFlex="100"
           [weatherResult]="weatherResult"
-          (selectChange)="onSelectChange($event)"
+          [metric]="metric$ | async"
+          (selectChanged)="onSelectChange($event)"
+          (degreeChanged)="onDegreeChange($event)"
         ></app-weather-result>
       </ng-container>
     </main>

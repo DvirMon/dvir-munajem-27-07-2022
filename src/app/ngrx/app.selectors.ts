@@ -22,7 +22,7 @@ export const currentResult = createSelector(root, (state) => {
 
   return {
     description: currentWeather?.WeatherText,
-    temp: currentWeather?.Temperature.Metric.Value
+    temp: currentWeather?.Temperature
   } as Partial<WeatherResult>
 })
 
@@ -56,6 +56,10 @@ export const isFavorites = createSelector(root, (state) => {
     return false
   }
 
+})
+
+export const isMetric = createSelector(root, (state) => {
+  return state.metric
 })
 
 export const weatherResult = createSelector(root, currentResult, futureResult, isFavorites, (state, current: Partial<WeatherResult>, future: Partial<WeatherResult>, favorite: boolean) => {
