@@ -29,7 +29,9 @@
           #auto="matAutocomplete"
         >
           <mat-option *ngFor="let option of options$ | async" [value]="option">
-            {{ option.value | pluck: ["LocalizedName"] }},
+            <span [innerHTML]="option.value.LocalizedName | highLight: input.value"></span>,
+
+            <!-- {{ option.value | pluck: ["LocalizedName"] | highLight : input.value }}, -->
             {{ option.value | pluck: ["Country"] | pluck: ["LocalizedName"] }}
           </mat-option>
         </mat-autocomplete>
