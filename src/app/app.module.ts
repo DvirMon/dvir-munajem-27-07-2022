@@ -19,6 +19,9 @@ import { StoreModule } from '@ngrx/store';
 import { appFeatureKey } from './ngrx/app.state';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { ToastrModule } from 'ngx-toastr';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +41,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       maxAge: 50,
       logOnly: environment.production,
     }),
+    ToastrModule.forRoot(),
   ],
   providers: [
     {
