@@ -32,8 +32,14 @@ export const appReducer = createReducer(
     ...state,
     favorites: new Map(setFavorites(state.favorites, action.data))
   })),
+
   on(AppActions.DeleteFavorite, (state, action) => ({
     ...state,
     favorites: deleteFavorites(state.favorites, action.data.id!)
   })),
+
+  on(AppActions.SetDegree, (state, action) => ({
+    ...state,
+    metric: action.data
+  }))
 );

@@ -4,8 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'degree'
 })
 export class DegreePipe implements PipeTransform {
-  transform(value: 'C' | 'F' | 'Metric' | 'Imperial'): unknown {
-    return value === 'C' ? '&#8451;' : '&#8457;'
+  transform(value: boolean | null): unknown {
+    return value ? '&#8451;' : '&#8457;'
   }
 
 }

@@ -3,12 +3,12 @@
     <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
       <mat-card-title>{{ weatherResult.location | titlecase }}</mat-card-title>
       <mat-card-subtitle
-        >{{ weatherResult.temp! | temperature: defaultTemp }}
-        <span [innerHTML]="defaultTemp | degree"></span>
+        >{{ weatherResult.temp! | temperature: metric }}
+        <span [innerHTML]="metric | degree"></span>
       </mat-card-subtitle>
       <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-        <button mat-icon-button (click)="onTempChange()">
-          <span [innerHTML]="defaultTemp | degree"></span>
+        <button mat-icon-button (click)="onDegreeChange()">
+          <span [innerHTML]="metric | degree"></span>
         </button>
         <button mat-button (click)="onSelectChange()">
           {{ weatherResult.favorite ? "Unlike" : "Like!" }}

@@ -5,9 +5,9 @@ import { Temperature } from 'src/app/utilities/models/current-weather-result';
   name: 'temperature'
 })
 export class TemperaturePipe implements PipeTransform {
-  transform(value: Temperature, args: 'C' | 'F'): unknown {
+  transform(value: Temperature, metric: boolean | null): unknown {
 
-    const key: keyof Temperature = args === 'C' ? 'Metric' : 'Imperial';
+    const key: keyof Temperature = metric ? 'Metric' : 'Imperial';
     return value[key].Value
   }
 

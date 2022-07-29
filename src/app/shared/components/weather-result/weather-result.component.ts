@@ -20,6 +20,9 @@ export interface SelectChangeEvent {
   selected: boolean,
   source: Partial<WeatherResult>
 }
+export interface TempChangeEvent {
+  metric: boolean,
+}
 
 @Component({
   selector: 'app-weather-result',
@@ -32,8 +35,10 @@ export class WeatherResultComponent {
 
 
   @Input() weatherResult!: Partial<WeatherResult>
+  @Input() metric!: boolean | null
 
-  @Output() selectChange: EventEmitter<SelectChangeEvent> = new EventEmitter();
+  @Output() selectChanged: EventEmitter<SelectChangeEvent> = new EventEmitter();
+  @Output() degreeChanged: EventEmitter<TempChangeEvent> = new EventEmitter();
 
   constructor() { }
 
@@ -41,8 +46,8 @@ export class WeatherResultComponent {
     this._emitChange()
   }
 
-  onTempChange() {
-    this.defaultTemp = this.defaultTemp === 'C' ?  'F' : 'C'
+  onDegreeChange() {
+    this.degreeChanged.emit({ metric: !this.metric })
   }
 
   private _setPartialWeatherResult(): Partial<WeatherResult> {
@@ -55,7 +60,7 @@ export class WeatherResultComponent {
   }
 
   private _emitChange() {
-    this.selectChange.emit({ selected: !this.weatherResult.favorite as boolean, source: this._setPartialWeatherResult() })
+    this.selectChanged.emit({ selected: !this.weatherResult.favorite as boolean, source: this._setPartialWeatherResult() })
   }
 
 
