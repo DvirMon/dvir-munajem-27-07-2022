@@ -44,9 +44,6 @@ export class LobbyComponent implements OnInit {
     this.searchControl = this.nfb.control({} as AutocompleteOption)
     this.options$ = this._getLocationOptions()
     this.weatherResult$ = this._getWeatherResult()
-
-
-
   }
 
   private _initOptions(): Observable<AutocompleteOption[]> {

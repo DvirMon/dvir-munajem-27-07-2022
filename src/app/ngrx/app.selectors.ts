@@ -11,6 +11,12 @@ export const root = createFeatureSelector<AppState>(appFeatureKey);
 export const searchResult = createSelector(root, (state) =>
   state.searchResult)
 
+export const currentWeatherResult = createSelector(root, (state) =>
+  state.currentWeather)
+
+export const futureWeatherResult = createSelector(root, (state) =>
+  state.futureWeather)
+
 export const currentResult = createSelector(root, (state) => {
   const { currentWeather } = state
 
