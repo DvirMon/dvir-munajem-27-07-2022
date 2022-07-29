@@ -4,10 +4,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterielModule } from './materiel/materiel.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { WeatherResultComponent } from './components/weather-result/weather-result.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
-    WeatherResultComponent
+    WeatherResultComponent,
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { WeatherResultComponent } from './components/weather-result/weather-resu
     FlexLayoutModule,
     ReactiveFormsModule,
 
-    WeatherResultComponent
+    WeatherResultComponent,
+    PageNotFoundComponent
   ],
 })
 export class SharedModule {}

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LobbyComponent } from './components/lobby/lobby.component';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { WeatherResolver } from './utilities/resolvers/options.resolver';
 
 const routes: Routes = [
@@ -16,7 +17,11 @@ const routes: Routes = [
   },
   {
     path: '', redirectTo: 'lobby', pathMatch: 'full'
-  }
+  },
+  {
+    path: "**",
+    component: PageNotFoundComponent
+  },
 ];
 
 @NgModule({
