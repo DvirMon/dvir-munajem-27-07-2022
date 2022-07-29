@@ -31,7 +31,10 @@
           >
             <mat-card-header>
               <span mat-card-title>{{ item.date | date: "EEEE" }}</span>
-              <!-- <span mat-card-subtitle>{{ item.temp }} </span> -->
+              <span mat-card-subtitle
+                >{{ item.temp | dailyTemperature }}
+                <span [innerHTML]="metric | degree"></span>
+              </span>
             </mat-card-header>
           </mat-card>
         </ng-container>

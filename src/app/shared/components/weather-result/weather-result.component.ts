@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Temperature } from 'src/app/utilities/models/current-weather-result';
+import { DailyTemperature } from 'src/app/utilities/models/future-weather-result';
 
 
 export interface WeatherForecast {
   date: Date,
-  temp: number
+  temp: DailyTemperature
 }
 
 export interface WeatherResult {

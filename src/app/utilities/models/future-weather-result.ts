@@ -23,7 +23,7 @@
       UnitType: number;
   }
 
-  export interface Temperature {
+  export interface DailyTemperature {
       Minimum: Minimum;
       Maximum: Maximum;
   }
@@ -43,7 +43,7 @@
   export interface DailyForecast {
       Date: Date;
       EpochDate: number;
-      Temperature: Temperature;
+      Temperature: DailyTemperature;
       Day: Day;
       Night: Night;
       Sources: string[];

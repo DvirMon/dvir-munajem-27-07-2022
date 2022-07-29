@@ -9,6 +9,7 @@ import { PluckPipe } from './pipes/pluck.pipe';
 import { HighLightPipe } from './pipes/high-light.pipe';
 import { DegreePipe } from './pipes/degree.pipe';
 import { TemperaturePipe } from './pipes/temperature.pipe';
+import { DailyTemperaturePipe } from './pipes/daily-temperature.pipe';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import { TemperaturePipe } from './pipes/temperature.pipe';
     PluckPipe,
     HighLightPipe,
     DegreePipe,
-    TemperaturePipe
+    TemperaturePipe,
+    DailyTemperaturePipe
+
   ],
   imports: [
     CommonModule,
@@ -36,7 +39,8 @@ import { TemperaturePipe } from './pipes/temperature.pipe';
     PluckPipe,
     HighLightPipe,
     DegreePipe,
-    TemperaturePipe
+    TemperaturePipe,
+    DailyTemperaturePipe
   ],
 })
 export class SharedModule {}
