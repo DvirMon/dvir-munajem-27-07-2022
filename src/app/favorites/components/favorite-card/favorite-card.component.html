@@ -7,8 +7,10 @@
     >
       <mat-card-header fxLayoutAlign="space-between center">
         <span mat-card-title>{{ item.location | titlecase }}</span>
-        <span mat-card-subtitle>{{ item.temp }} &#8451;</span>
-        <div>
+        <span mat-card-subtitle>
+        {{ item.temp! | temperature: metric }}
+        <span [innerHTML]="metric | degree"></span>
+      </span>        <div>
           <span>{{ item.description | titlecase }}</span>
         </div>
       </mat-card-header>

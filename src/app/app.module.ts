@@ -42,6 +42,7 @@ import { ToastrModule } from 'ngx-toastr';
       logOnly: environment.production,
     }),
     ToastrModule.forRoot(),
+
   ],
   providers: [
     {
