@@ -58,6 +58,8 @@ export const isFavorites = createSelector(root, (state) => {
 
 })
 
+export const hasFavorites = createSelector(root, (state) => state.favorites.size > 0)
+
 export const isMetric = createSelector(root, (state) => {
   return state.metric
 })
