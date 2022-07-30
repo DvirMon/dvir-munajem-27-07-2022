@@ -32,9 +32,6 @@ export interface TempChangeEvent {
 })
 export class WeatherResultComponent {
 
-  defaultTemp: 'C' | 'F' = 'C'
-
-
   @Input() weatherResult!: Partial<WeatherResult>
   @Input() metric!: boolean | null
 
