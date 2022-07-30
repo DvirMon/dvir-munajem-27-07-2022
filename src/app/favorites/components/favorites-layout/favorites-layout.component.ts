@@ -12,14 +12,15 @@ import { FavoriteCard } from '../favorite-card/favorite-card.component';
 export class FavoritesLayoutComponent implements OnInit {
 
   items$!: Observable<Map<number, FavoriteCard>>
+  metric$!: Observable<boolean>
 
   constructor(
     private store: Store<any>
   ) { }
 
   ngOnInit(): void {
-
     this.items$ = this.store.select(AppSelectors.favorites)
+    this.metric$ = this.store.select(AppSelectors.isMetric)
   }
 
 }

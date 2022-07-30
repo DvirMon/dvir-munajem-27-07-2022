@@ -18,6 +18,7 @@ export interface FavoriteCard {
 export class FavoriteCardComponent {
 
   @Input() item!: FavoriteCard
+  @Input() metric!: boolean | null
 
   constructor(
     private router: Router,
