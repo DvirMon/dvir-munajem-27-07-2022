@@ -23,15 +23,10 @@ export class FavoriteCardComponent {
 
   @Output() select: EventEmitter<FavoriteCard> = new EventEmitter<FavoriteCard>();
 
-  constructor(
-    private router: Router,
-    private weatherService: WeatherService
-  ) { }
+  constructor() { }
 
   onSelect() {
-    // this.weatherService.emitSearchQuery(this.item.location)
     this.select.emit(this.item)
-    // this.router.navigateByUrl('/')
   }
 
 }

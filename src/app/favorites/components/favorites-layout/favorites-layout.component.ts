@@ -31,8 +31,7 @@ export class FavoritesLayoutComponent implements OnInit {
 
   onSelect({ location }: FavoriteCard) {
     this.weatherService.emitSearchQuery(location)
-    console.log(location)
-    // this.router.navigateByUrl('/')
+    this.router.navigateByUrl('/')
   }
 
 }

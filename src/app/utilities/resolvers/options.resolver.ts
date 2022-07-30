@@ -30,9 +30,10 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
 
 
     const server$ = searchResult$.pipe(
-      filter((res) => res.length === 0),
+      // filter((res) => res.length === 0),
       switchMap(() => {
         return this.weatherService.listenToSearchQuery().pipe(
+          tap((query) => console.log('resolver server', query)),
           switchMap((query: string) => this.weatherService.getLocationOptions(query)),
           catchError((error: HttpErrorResponse) => {
             this.toastrService.error(error.message, 'An unexpected error ocurred');
@@ -44,10 +45,11 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
     )
     const local$ = searchResult$.pipe(
       filter((res) => res.length !== 0),
+      tap((query) => console.log('resolver local', query)),
       switchMap((_) => this.store.select(AppSelectors.autocompleteOptions))
     )
 
-    return merge(server$, local$)
+    return merge(server$)
 
   }
 }
