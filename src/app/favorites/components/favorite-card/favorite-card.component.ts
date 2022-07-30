@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Temperature } from 'src/app/utilities/models/current-weather-result';
 import { WeatherService } from 'src/app/utilities/services/weather.service';
@@ -10,6 +10,7 @@ export interface FavoriteCard {
   temp: Temperature,
 }
 
+
 @Component({
   selector: 'app-favorite-card',
   templateUrl: './favorite-card.component.html',
@@ -20,14 +21,17 @@ export class FavoriteCardComponent {
   @Input() item!: FavoriteCard
   @Input() metric!: boolean | null
 
+  @Output() select: EventEmitter<FavoriteCard> = new EventEmitter<FavoriteCard>();
+
   constructor(
     private router: Router,
     private weatherService: WeatherService
   ) { }
 
   onSelect() {
-    this.weatherService.emitSearchQuery(this.item.location)
-    this.router.navigateByUrl('/')
+    // this.weatherService.emitSearchQuery(this.item.location)
+    this.select.emit(this.item)
+    // this.router.navigateByUrl('/')
   }
 
 }
