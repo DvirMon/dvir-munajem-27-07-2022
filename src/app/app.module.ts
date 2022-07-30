@@ -41,7 +41,10 @@ import { ToastrModule } from 'ngx-toastr';
       maxAge: 50,
       logOnly: environment.production,
     }),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-position',
+      preventDuplicates: true,
+    }),
 
   ],
   providers: [
