@@ -65,9 +65,10 @@ export class LobbyComponent implements OnInit {
 
   private _getLocationOptions(): Observable<AutocompleteOption[]> {
 
-    const init$ = this._initOptions()
+    const init$ = this._initOptions().pipe(tap(() => console.log('init')))
 
     const queryChanged$ = this._listenToSearchQuery().pipe(
+      tap(() => console.log('queryChanged')),
       filter((query: string) => !!query),
       switchMap((query: string) => this.weatherService.getLocationOptions(query)))
 
@@ -88,6 +89,11 @@ export class LobbyComponent implements OnInit {
 
   }
 
+  private updateQuery(query: string) {
+    const action = AppActions.UpdateQuery({ data: query })
+    this.store.dispatch(action)
+  }
+
   onQueryChange(query: string): void {
     this.queryChangeSource$.next(query)
   }
@@ -96,6 +102,7 @@ export class LobbyComponent implements OnInit {
     const option: AutocompleteOption = event.option.value;
     this.selectedOptionSource$.next(option);
     this.queryChangeSource$.next(option.value.LocalizedName);
+    this.updateQuery(option.value.LocalizedName)
   }
 
   onSelectChange({ selected, source }: SelectChangeEvent): void {

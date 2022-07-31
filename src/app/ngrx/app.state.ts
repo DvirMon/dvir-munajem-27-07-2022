@@ -8,6 +8,7 @@ export const appFeatureKey = 'app';
 
 export interface AppState {
   searchResult: AutocompleteResult[]
+  query: string
   selectedResult: WeatherResult | null
   currentWeatherResults: { [key: number]: CurrentWeatherResult }
   futureWeather: FutureResultObject | null
@@ -18,6 +19,7 @@ export interface AppState {
 
 export const initialAppState: AppState = {
   searchResult: [],
+  query: 'tel aviv',
   selectedResult: null,
   currentWeatherResults: {},
   futureWeather: null,

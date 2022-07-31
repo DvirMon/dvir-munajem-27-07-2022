@@ -17,6 +17,9 @@ export const currentWeatherResult = createSelector(root, (state) =>
 export const futureWeatherResult = createSelector(root, (state) =>
   state.futureWeather)
 
+
+export const getQuery = createSelector(root, (state) => state.query)
+
 export const currentResult = createSelector(root, (state) => {
   const { currentWeatherResults, selectedResult } = state
 

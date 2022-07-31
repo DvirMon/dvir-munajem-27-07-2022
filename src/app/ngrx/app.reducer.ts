@@ -29,6 +29,11 @@ export const appReducer = createReducer(
     futureWeather: action.data
   })),
 
+  on(AppActions.UpdateQuery, (state, action) => ({
+    ...state,
+    query: action.data
+  })),
+
 
 
   on(AppActions.SetFavorite, (state, action) => ({
