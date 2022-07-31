@@ -11,6 +11,7 @@ export interface AppState {
   query: string
   selectedResult: WeatherResult | null
   currentWeatherResults: { [key: number]: CurrentWeatherResult }
+  futureWeatherResults: { [key: number]: FutureResultObject }
   futureWeather: FutureResultObject | null
   favorites: Map<number, FavoriteCard>
   metric: boolean
@@ -22,6 +23,7 @@ export const initialAppState: AppState = {
   query: 'tel aviv',
   selectedResult: null,
   currentWeatherResults: {},
+  futureWeatherResults: {},
   futureWeather: null,
   favorites: new Map<number, FavoriteCard>(),
   metric: true

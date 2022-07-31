@@ -64,9 +64,9 @@ export class WeatherService {
 
   private getCurrentWeather(locationKey: number): Observable<CurrentWeatherResult> {
 
-    const currentWeatherResult$ = this.store.select(AppSelectors.currentWeatherResult).pipe(take(1))
+    const currentWeatherResults$ = this.store.select(AppSelectors.currentWeatherResult).pipe(take(1))
 
-    const server$ = currentWeatherResult$.pipe(
+    const server$ = currentWeatherResults$.pipe(
 
       filter((data) => !data.hasOwnProperty(locationKey)),
       switchMap(() => {
@@ -82,7 +82,7 @@ export class WeatherService {
 
       })
     )
-    const local$ = currentWeatherResult$.pipe(
+    const local$ = currentWeatherResults$.pipe(
       filter((data) => data.hasOwnProperty(locationKey)),
       map((data) => data[locationKey]))
 
@@ -93,11 +93,11 @@ export class WeatherService {
 
   private getFutureWeather(locationKey: number): Observable<FutureResultObject | null> {
 
-    const futureWeatherResult$ = this.store.select(AppSelectors.futureWeatherResult).pipe(take(1));
+    const futureWeatherResults$ = this.store.select(AppSelectors.futureWeatherResults).pipe(take(1));
     const metric$ = this.store.select(AppSelectors.isMetric)
 
-    const server$ = futureWeatherResult$.pipe(
-      // filter((res) => !res),
+    const server$ = futureWeatherResults$.pipe(
+      filter((data) => !data.hasOwnProperty(locationKey)),
       switchMap(() => {
         // console.log('future server')
 
@@ -108,7 +108,7 @@ export class WeatherService {
             return of(FUTURE_WEATHER)
               .pipe(
                 tap((data: FutureResultObject) => {
-                  const action = AppActions.SetFutureWeather({ data })
+                  const action = AppActions.SetFutureWeather({ data, id: locationKey })
                   this.store.dispatch(action)
                 })
               )
@@ -117,9 +117,12 @@ export class WeatherService {
 
       }))
 
-    const local$ = futureWeatherResult$.pipe(filter((res) => res !== null))
+    const local$ = futureWeatherResults$.pipe(
+      filter((data) => data.hasOwnProperty(locationKey)),
+      map((data) => data[locationKey]))
 
-    return merge(server$);
+
+    return merge(server$, local$);
 
 
   }

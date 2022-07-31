@@ -26,8 +26,10 @@ export const appReducer = createReducer(
 
   on(AppActions.SetFutureWeather, (state, action) => ({
     ...state,
-    futureWeather: action.data
-  })),
+    futureWeatherResults: {
+      ...state.futureWeatherResults,
+      [action.id] : action.data
+    }  })),
 
   on(AppActions.UpdateQuery, (state, action) => ({
     ...state,

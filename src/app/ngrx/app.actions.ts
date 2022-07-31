@@ -7,7 +7,7 @@ import { FutureResultObject } from '../utilities/models/future-weather-result';
 
 export const SetSearchResult = createAction('[SET] Autocomplete search result', props<{ data: AutocompleteResult[] }>())
 export const SetCurrentWeather = createAction('[SET] Current weather result', props<{ data: CurrentWeatherResult, id: number }>())
-export const SetFutureWeather = createAction('[SET]  Future weather result', props<{ data: FutureResultObject }>())
+export const SetFutureWeather = createAction('[SET]  Future weather result', props<{ data: FutureResultObject, id : number }>())
 
 export const SetSelectedResult = createAction('[SET] Selected result', props<{ data: WeatherResult }>())
 
