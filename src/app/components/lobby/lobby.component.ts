@@ -12,6 +12,7 @@ import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
 import { Store } from '@ngrx/store';
 
 import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, pipe, Subject, switchMap, tap } from 'rxjs';
+import { AutocompleteResult } from 'src/app/utilities/models/autocomplete-result';
 
 @Component({
 
@@ -84,6 +85,9 @@ export class LobbyComponent implements OnInit {
       tap((options: AutocompleteOption[]) => {
         this.searchControl.setValue(options[0], { emitEvent: false })
         this.selectedOptionSource$.next(options[0]);
+        const action = AppActions.PatchSelectedResult({ data: { id: options[0].key, location: options[0].value.LocalizedName } as Partial<WeatherResult> });
+        this.store.dispatch(action);
+
       }))
   }
 
@@ -116,8 +120,11 @@ export class LobbyComponent implements OnInit {
 
   }
 
-  private updateQuery(query: string) {
-    const action = AppActions.UpdateQuery({ data: query });
+  private updateQuery(value: AutocompleteResult) {
+    // const action = AppActions.UpdateQuery({ data: query });
+    // this.store.dispatch(action);
+
+    const action = AppActions.PatchSelectedResult({ data: { id: Number(value.Key), location: value.LocalizedName } as Partial<WeatherResult> });
     this.store.dispatch(action);
   }
 
@@ -129,7 +136,7 @@ export class LobbyComponent implements OnInit {
     const option: AutocompleteOption = event.option.value;
     this.selectedOptionSource$.next(option);
     this.queryChangeSource$.next(option.value.LocalizedName);
-    this.updateQuery(option.value.LocalizedName)
+    this.updateQuery(option.value)
   }
 
   onSelectChange({ selected, source }: SelectChangeEvent): void {

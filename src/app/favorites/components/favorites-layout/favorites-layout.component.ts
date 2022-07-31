@@ -5,6 +5,7 @@ import { FavoriteCard } from '../favorite-card/favorite-card.component';
 import { Store } from '@ngrx/store';
 import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
 import { Observable } from 'rxjs';
+import { WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
 
 @Component({
   selector: 'app-favorites-layout',
@@ -26,13 +27,15 @@ export class FavoritesLayoutComponent implements OnInit {
     this.metric$ = this.store.select(AppSelectors.isMetric);
   }
 
-  private _updateQuery(query: string): void {
-    const action = AppActions.UpdateQuery({ data: query });
+  private _updateQuery(id: number, location: string): void {
+    // const action = AppActions.UpdateQuery({ data: query });
+    // this.store.dispatch(action);
+    const action = AppActions.PatchSelectedResult({ data: { id, location } as Partial<WeatherResult> });
     this.store.dispatch(action);
   }
 
-  onSelect({ location }: FavoriteCard): void {
-    this._updateQuery(location);
+  onSelect({ location, id }: FavoriteCard): void {
+    this._updateQuery(id, location);
     this.router.navigateByUrl('/');
   }
 }

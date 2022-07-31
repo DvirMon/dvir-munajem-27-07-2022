@@ -33,16 +33,16 @@ export class WeatherService {
 
   private _getLocationAutocomplete(query: string): Observable<AutocompleteResult[]> {
 
-    const data = LOCATIONS_AUTOCOMPLETE.filter((item: AutocompleteResult) => item.LocalizedName.toLowerCase().includes(query.toLowerCase()));
-    const action = AppActions.SetSearchResult({ data });
-    this.store.dispatch(action);
-    return of(data);
-    // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
-    // return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
-    //   tap((data: AutocompleteResult[]) => {
-    //     const action = AppActions.SetSearchResult({ data })
-    //     this.store.dispatch(action)
-    //   }))
+    // const data = LOCATIONS_AUTOCOMPLETE.filter((item: AutocompleteResult) => item.LocalizedName.toLowerCase().includes(query.toLowerCase()));
+    // const action = AppActions.SetSearchResult({ data });
+    // this.store.dispatch(action);
+    // return of(data);
+    const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
+    return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
+      tap((data: AutocompleteResult[]) => {
+        const action = AppActions.SetSearchResult({ data })
+        this.store.dispatch(action)
+      }))
   }
 
   getLocationOptions(query: string): Observable<AutocompleteOption[]> {
@@ -140,9 +140,8 @@ export class WeatherService {
           } as WeatherResult
         }),
         switchMap((data: WeatherResult) => {
-          console.log(data)
-          const action = AppActions.SetSelectedResult({ data })
-          this.store.dispatch(action)
+          // const action = AppActions.PatchSelectedResult({ data })
+          // this.store.dispatch(action)
           return this.store.select(AppSelectors.weatherResult)
 
         }))
