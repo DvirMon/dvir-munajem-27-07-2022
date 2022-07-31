@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
 
 import { combineLatest, filter, map, merge, Observable, of, switchMap, take, tap } from 'rxjs';
+import { GeolocationWeatherResult, GeoPosition } from '../models/geolocation-weather-result';
 
 @Injectable({
   providedIn: 'root'
@@ -139,6 +140,7 @@ export class WeatherService {
           } as WeatherResult
         }),
         switchMap((data: WeatherResult) => {
+          console.log(data)
           const action = AppActions.SetSelectedResult({ data })
           this.store.dispatch(action)
           return this.store.select(AppSelectors.weatherResult)
@@ -150,5 +152,26 @@ export class WeatherService {
 
       return this.store.select(AppSelectors.weatherResult)
     }
+  }
+
+
+
+  getGeolocationWeather(position$: Observable<GeoPosition>): Observable<GeolocationWeatherResult> {
+
+    const url: string = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search'
+
+    return position$.pipe(map((position: GeoPosition) => {
+      const lat = position.Latitude
+      const lot = position.Longitude
+      return `${lat},${lot}`
+    }),
+      switchMap((query: string) => {
+        const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('q', query)
+        return this.http.get<GeolocationWeatherResult>(url, { params }).pipe(
+          tap((res) => console.log(res)))
+      })
+    )
+
+
   }
 }
