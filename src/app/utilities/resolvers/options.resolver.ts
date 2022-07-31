@@ -10,7 +10,8 @@ import { WeatherService } from "../services/weather.service";
 
 import { Store } from "@ngrx/store";
 import { AppSelectors } from "src/app/ngrx/app.types";
-import { catchError, distinctUntilChanged, filter, map, merge, Observable, switchMap, tap, throwError } from "rxjs";
+import { catchError, distinctUntilChanged, filter, map, merge, Observable, switchMap, take, throwError } from "rxjs";
+import { WeatherResult } from "src/app/shared/components/weather-result/weather-result.component";
 
 @Injectable({ providedIn: 'root' })
 export class WeatherResolver implements Resolve<AutocompleteOption[]> {
@@ -29,37 +30,40 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
   ): Observable<AutocompleteOption[]> | Promise<AutocompleteOption[]> | AutocompleteOption[] {
 
 
-    const searchResult$ = this.store.select(AppSelectors.searchResult)
+    const searchResult$ = this.store.select(AppSelectors.searchResult).pipe(take(1))
+    const selectedResult$ = this.store.select(AppSelectors.selectedResult)
 
-    const server$ = this.store.select(AppSelectors.getQuery).pipe(
-      switchMap((query: string) => {
-        return searchResult$.pipe(
-          filter((items: AutocompleteResult[]) => !items.some((item: AutocompleteResult) => item.LocalizedName === query)),
-          map(() => query),
-          switchMap((_) => {
-            return this.weatherService.getLocationOptions(query).pipe(
-              catchError((error: HttpErrorResponse) => {
-                this.toastrService.error(error.message, 'An unexpected error ocurred');
-                this.router.navigate(['error'])
-                sessionStorage.setItem('errorMessage', 'An unexpected error ocurred. Please Try again later')
-                return throwError(() => error);
-              })
+    const server$ = selectedResult$
+      .pipe(
+        switchMap((res: Partial<WeatherResult>) => {
+          return searchResult$
+            .pipe(
+              filter((items: AutocompleteResult[]) => !items.find((item: AutocompleteResult) => Number(item.Key) === res.id!)),
+              switchMap((items: AutocompleteResult[]) => {
+                return this.weatherService.getLocationOptions(res.location!).pipe(
+                  catchError((error: HttpErrorResponse) => {
+                    this.toastrService.error(error.message, 'An unexpected error ocurred');
+                    this.router.navigate(['error'])
+                    sessionStorage.setItem('errorMessage', 'An unexpected error ocurred. Please Try again later')
+                    return throwError(() => error);
+                  })
+                )
+              }))
+        }))
+
+
+    const local$ = selectedResult$
+      .pipe(
+        map((result) => result.id!),
+        distinctUntilChanged(),
+        switchMap((id: number) => {
+          return searchResult$.pipe(
+            filter((items: AutocompleteResult[]) => !!items.find((item: AutocompleteResult) => Number(item.Key) === id!)),
+            switchMap(() =>
+              this.store.select(AppSelectors.autocompleteOptions)
             )
-          }))
-      }))
-
-    const local$ = this.store.select(AppSelectors.getQuery).pipe(
-      distinctUntilChanged(),
-      switchMap((query: string) => {
-        return searchResult$.pipe(
-          filter((items: AutocompleteResult[]) => items.some((item: AutocompleteResult) => item.LocalizedName === query)),
-          tap((query) => console.log('resolver local', query)),
-
-          switchMap(() =>
-            this.store.select(AppSelectors.autocompleteOptions)
           )
-        )
-      }))
+        }))
 
 
     return merge(server$, local$)

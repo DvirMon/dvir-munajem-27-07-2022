@@ -14,13 +14,19 @@ export const appReducer = createReducer(
     ...state,
     selectedResult: action.data
   })),
-
+  on(AppActions.PatchSelectedResult, (state, action) => ({
+    ...state,
+    selectedResult: {
+      ...state.selectedResult,
+      ...action.data
+    }
+  })),
 
   on(AppActions.SetCurrentWeather, (state, action) => ({
     ...state,
     currentWeatherResults: {
       ...state.currentWeatherResults,
-      [action.id] : action.data
+      [action.id]: action.data
     }
   })),
 
@@ -28,14 +34,9 @@ export const appReducer = createReducer(
     ...state,
     futureWeatherResults: {
       ...state.futureWeatherResults,
-      [action.id] : action.data
-    }  })),
-
-  on(AppActions.UpdateQuery, (state, action) => ({
-    ...state,
-    query: action.data
+      [action.id]: action.data
+    }
   })),
-
 
 
   on(AppActions.SetFavorite, (state, action) => ({

@@ -17,8 +17,7 @@ export const currentWeatherResult = createSelector(root, (state) =>
 export const futureWeatherResults = createSelector(root, (state) =>
   state.futureWeatherResults)
 
-
-export const getQuery = createSelector(root, (state) => state.query)
+  export const selectedResult = createSelector(root, (state) => state.selectedResult)
 
 export const currentResult = createSelector(root, (state) => {
   const { currentWeatherResults, selectedResult } = state
@@ -55,7 +54,7 @@ export const isFavorites = createSelector(root, (state) => {
     const { id } = selectedResult
 
 
-    return favorites.has(id)
+    return favorites.has(id!)
   }
 
   else {
