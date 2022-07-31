@@ -28,8 +28,6 @@ export class FavoritesLayoutComponent implements OnInit {
   }
 
   private _updateQuery(id: number, location: string): void {
-    // const action = AppActions.UpdateQuery({ data: query });
-    // this.store.dispatch(action);
     const action = AppActions.PatchSelectedResult({ data: { id, location } as Partial<WeatherResult> });
     this.store.dispatch(action);
   }
