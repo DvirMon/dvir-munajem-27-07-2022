@@ -42,10 +42,10 @@ export class LobbyComponent implements OnInit {
   queryChangeSource$: Subject<string> = new Subject<string>()
 
   ngOnInit(): void {
-    this.searchControl = this.nfb.control({} as AutocompleteOption)
-    this.options$ = this._getLocationOptions()
-    this.weatherResult$ = this._getWeatherResult()
-    this.metric$ = this.store.select(AppSelectors.isMetric)
+    this.searchControl = this.nfb.control({} as AutocompleteOption);
+    this.options$ = this._getLocationOptions();
+    this.weatherResult$ = this._getWeatherResult();
+    this.metric$ = this.store.select(AppSelectors.isMetric);
   }
 
   private _initOptions(): Observable<AutocompleteOption[]> {
@@ -55,7 +55,7 @@ export class LobbyComponent implements OnInit {
       }),
       tap((options: AutocompleteOption[]) => {
         this.searchControl.setValue(options[0], { emitEvent: false })
-        this.selectedOptionSource$.next(options[0])
+        this.selectedOptionSource$.next(options[0]);
       }))
   }
 
@@ -65,19 +65,19 @@ export class LobbyComponent implements OnInit {
 
   private _getLocationOptions(): Observable<AutocompleteOption[]> {
 
-    const init$ = this._initOptions()
+    const init$ = this._initOptions();
 
     const queryChanged$ = this._listenToSearchQuery().pipe(
       filter((query: string) => !!query),
-      switchMap((query: string) => this.weatherService.getLocationOptions(query)))
+      switchMap((query: string) => this.weatherService.getLocationOptions(query)));
 
 
     const default$ = this._listenToSearchQuery().pipe(
       filter((query: string) => !query),
       switchMap(() => this.weatherService.getLocationOptions(this._defaultQuery))
-    )
+    );
 
-    return merge(init$, queryChanged$, default$)
+    return merge(init$, queryChanged$, default$);
   }
 
   private _getWeatherResult(): Observable<WeatherResult | null> {
@@ -88,31 +88,36 @@ export class LobbyComponent implements OnInit {
 
   }
 
-  onQueryChange(query: string): void {
-    this.queryChangeSource$.next(query)
+  private updateQuery(query: string) {
+    const action = AppActions.UpdateQuery({ data: query });
+    this.store.dispatch(action);
   }
+
+  onQueryChange(query: string): void {
+    this.queryChangeSource$.next(query);
+  };
 
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
     const option: AutocompleteOption = event.option.value;
     this.selectedOptionSource$.next(option);
     this.queryChangeSource$.next(option.value.LocalizedName);
+    this.updateQuery(option.value.LocalizedName)
   }
 
   onSelectChange({ selected, source }: SelectChangeEvent): void {
     const action = selected
       ? AppActions.SetFavorite({ data: source as FavoriteCard })
       : AppActions.DeleteFavorite({ data: source as FavoriteCard });
-    this.store.dispatch(action)
+    this.store.dispatch(action);
   }
 
   onDegreeChange({ metric }: TempChangeEvent): void {
     const action = AppActions.SetDegree({ data: metric });
-    this.store.dispatch(action)
+    this.store.dispatch(action);
 
   }
 
   displayFn(option: AutocompleteOption): string {
-
     return option && option.value ? `${option.value.LocalizedName}` : '';
   }
 

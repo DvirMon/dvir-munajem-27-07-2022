@@ -37,5 +37,11 @@ export function setFavorites(items: Map<number, FavoriteCard>, item: FavoriteCar
   return updateItems
 }
 
+export function setMapItems<T>(items: Map<number, T>, item: T, key: number) {
+  const updateItems = new Map<number, T>(items);
+  updateItems.set(key, item)
+  return updateItems
+}
+
 
 

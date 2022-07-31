@@ -12,13 +12,18 @@ export const searchResult = createSelector(root, (state) =>
   state.searchResult)
 
 export const currentWeatherResult = createSelector(root, (state) =>
-  state.currentWeather)
+  state.currentWeatherResults)
 
-export const futureWeatherResult = createSelector(root, (state) =>
-  state.futureWeather)
+export const futureWeatherResults = createSelector(root, (state) =>
+  state.futureWeatherResults)
+
+
+export const getQuery = createSelector(root, (state) => state.query)
 
 export const currentResult = createSelector(root, (state) => {
-  const { currentWeather } = state
+  const { currentWeatherResults, selectedResult } = state
+
+  const currentWeather = currentWeatherResults[selectedResult?.id!]
 
   return {
     description: currentWeather?.WeatherText,
@@ -28,7 +33,8 @@ export const currentResult = createSelector(root, (state) => {
 
 export const futureResult = createSelector(root, (state) => {
 
-  const { futureWeather } = state
+  const { futureWeatherResults, selectedResult } = state
+  const futureWeather = futureWeatherResults[selectedResult?.id!]
 
   const forecast = mapForecast(futureWeather?.DailyForecasts!)
 
