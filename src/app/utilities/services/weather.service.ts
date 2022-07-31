@@ -68,21 +68,23 @@ export class WeatherService {
 
     const server$ = currentWeatherResult$.pipe(
 
-      filter((data: Map<number, CurrentWeatherResult>) => !data.has(locationKey)),
+      filter((data) => !data.hasOwnProperty(locationKey)),
       switchMap(() => {
         const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
         // return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
         return of(CURRENT_WEATHER)
           .pipe(
             map((data: CurrentWeatherResult[]) => {
-              const action = AppActions.SetCurrentWeather({ data: data[0], id : locationKey})
+              const action = AppActions.SetCurrentWeather({ data: data[0], id: locationKey })
               this.store.dispatch(action)
               return data[0]
             }))
 
       })
     )
-    const local$ = currentWeatherResult$.pipe(filter((data) => data.has(locationKey)), map((data) => data.get(locationKey)!))
+    const local$ = currentWeatherResult$.pipe(
+      filter((data) => data.hasOwnProperty(locationKey)),
+      map((data) => data[locationKey]))
 
     return merge(server$, local$)
 

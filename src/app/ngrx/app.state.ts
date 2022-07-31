@@ -9,17 +9,17 @@ export const appFeatureKey = 'app';
 export interface AppState {
   searchResult: AutocompleteResult[]
   selectedResult: WeatherResult | null
-  currentWeatherResults: Map<number, CurrentWeatherResult>
+  currentWeatherResults: { [key: number]: CurrentWeatherResult }
   futureWeather: FutureResultObject | null
   favorites: Map<number, FavoriteCard>
-  metric : boolean
+  metric: boolean
 
 }
 
 export const initialAppState: AppState = {
   searchResult: [],
   selectedResult: null,
-  currentWeatherResults: new Map<number, CurrentWeatherResult>(),
+  currentWeatherResults: {},
   futureWeather: null,
   favorites: new Map<number, FavoriteCard>(),
   metric: true

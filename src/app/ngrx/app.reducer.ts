@@ -18,7 +18,10 @@ export const appReducer = createReducer(
 
   on(AppActions.SetCurrentWeather, (state, action) => ({
     ...state,
-    currentWeatherResults: setMapItems(state.currentWeatherResults, action.data, action.id)
+    currentWeatherResults: {
+      ...state.currentWeatherResults,
+      [action.id] : action.data
+    }
   })),
 
   on(AppActions.SetFutureWeather, (state, action) => ({

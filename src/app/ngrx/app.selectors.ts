@@ -20,7 +20,7 @@ export const futureWeatherResult = createSelector(root, (state) =>
 export const currentResult = createSelector(root, (state) => {
   const { currentWeatherResults, selectedResult } = state
 
-  const currentWeather = currentWeatherResults.get(selectedResult?.id!)
+  const currentWeather = currentWeatherResults[selectedResult?.id!]
 
   return {
     description: currentWeather?.WeatherText,
