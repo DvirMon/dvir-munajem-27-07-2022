@@ -30,21 +30,11 @@ export interface Weather {
 export class WeatherService {
 
   private _baseUrl: string = environment.weatherEndpoint;
-  private _defaultQuery: string = 'tel aviv'
-  private _searchQuerySource$: BehaviorSubject<string> = new BehaviorSubject<string>(this._defaultQuery)
 
   constructor(
     private http: HttpClient,
     private store: Store<any>
   ) {
-  }
-
-  listenToSearchQuery() {
-    return this._searchQuerySource$.asObservable()
-  }
-
-  emitSearchQuery(value: string) {
-    this._searchQuerySource$.next(value)
   }
 
 
