@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
-import { WeatherService } from 'src/app/utilities/services/weather.service';
 import { FavoriteCard } from '../favorite-card/favorite-card.component';
+
+import { Store } from '@ngrx/store';
+import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-favorites-layout',
@@ -17,25 +17,22 @@ export class FavoritesLayoutComponent implements OnInit {
   metric$!: Observable<boolean>
 
   constructor(
-    private weatherService: WeatherService,
     private router: Router,
     private store: Store<any>,
   ) { }
 
-
-
   ngOnInit(): void {
-    this.items$ = this.store.select(AppSelectors.favorites)
-    this.metric$ = this.store.select(AppSelectors.isMetric)
+    this.items$ = this.store.select(AppSelectors.favorites);
+    this.metric$ = this.store.select(AppSelectors.isMetric);
   }
 
-  private _updateQuery(query: string) {
-    const action = AppActions.UpdateQuery({ data: query })
-    this.store.dispatch(action)
+  private _updateQuery(query: string): void {
+    const action = AppActions.UpdateQuery({ data: query });
+    this.store.dispatch(action);
   }
 
-  onSelect({ location }: FavoriteCard) {
-    this._updateQuery(location)
-    this.router.navigateByUrl('/')
+  onSelect({ location }: FavoriteCard): void {
+    this._updateQuery(location);
+    this.router.navigateByUrl('/');
   }
 }

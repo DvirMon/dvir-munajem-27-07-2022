@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
 import { Temperature } from 'src/app/utilities/models/current-weather-result';
-import { WeatherService } from 'src/app/utilities/services/weather.service';
 
 export interface FavoriteCard {
   id: number,
@@ -26,7 +24,7 @@ export class FavoriteCardComponent {
   constructor() { }
 
   onSelect() {
-    this.select.emit(this.item)
+    this.select.emit(this.item);
   }
 
 }

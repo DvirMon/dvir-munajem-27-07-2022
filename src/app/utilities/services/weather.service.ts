@@ -6,23 +6,15 @@ import { CURRENT_WEATHER, FUTURE_WEATHER, LOCATIONS_AUTOCOMPLETE } from '../mock
 
 import { AutocompleteResult } from '../models/autocomplete-result';
 import { CurrentWeatherResult } from '../models/current-weather-result';
+import { AutocompleteOption } from '../models/autocomplete-option';
+import { FutureResultObject } from '../models/future-weather-result';
+
+import { WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
 
 import { Store } from '@ngrx/store';
 import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
-import { BehaviorSubject, combineLatest, filter, forkJoin, map, merge, Observable, of, skip, switchMap, take, tap } from 'rxjs';
-import { AutocompleteOption } from '../models/autocomplete-option';
-import { WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
-import { FutureResultObject } from '../models/future-weather-result';
 
-export interface Weather {
-
-  id: number,
-  location: string,
-  currentWeather: string
-  forecasts: any[]
-
-}
-
+import { combineLatest, filter, map, merge, Observable, of, switchMap, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -102,10 +94,8 @@ export class WeatherService {
 
         // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
         // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
-          return of(FUTURE_WEATHER)
+        return of(FUTURE_WEATHER)
           .pipe(
-            tap((data) => console.log('server', data)),
-
             tap((data: FutureResultObject) => {
               const action = AppActions.SetFutureWeather({ data, id: locationKey })
               this.store.dispatch(action)
