@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { deleteFavorites, setFavorites, setSelectedResult } from './app.helpers';
+import { deleteFavorites, setFavorites, setMapItems, setSelectedResult } from './app.helpers';
 import { initialAppState } from './app.state';
 import { AppActions } from './app.types';
 
@@ -18,7 +18,7 @@ export const appReducer = createReducer(
 
   on(AppActions.SetCurrentWeather, (state, action) => ({
     ...state,
-    currentWeather: { ...action.data }
+    currentWeatherResults: setMapItems(state.currentWeatherResults, action.data, action.id)
   })),
 
   on(AppActions.SetFutureWeather, (state, action) => ({

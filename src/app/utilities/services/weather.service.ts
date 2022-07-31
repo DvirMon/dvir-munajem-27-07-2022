@@ -68,21 +68,21 @@ export class WeatherService {
 
     const server$ = currentWeatherResult$.pipe(
 
-      filter((res) => Object.entries(res).length === 0),
+      filter((data: Map<number, CurrentWeatherResult>) => !data.has(locationKey)),
       switchMap(() => {
         const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
         // return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
         return of(CURRENT_WEATHER)
           .pipe(
             map((data: CurrentWeatherResult[]) => {
-              const action = AppActions.SetCurrentWeather({ data: data[0] })
+              const action = AppActions.SetCurrentWeather({ data: data[0], id : locationKey})
               this.store.dispatch(action)
               return data[0]
             }))
 
       })
     )
-    const local$ = currentWeatherResult$.pipe(filter((res) => Object.entries(res).length !== 0))
+    const local$ = currentWeatherResult$.pipe(filter((data) => data.has(locationKey)), map((data) => data.get(locationKey)!))
 
     return merge(server$, local$)
 
@@ -101,16 +101,16 @@ export class WeatherService {
 
         return metric$.pipe(
           switchMap((metric: boolean) => {
-          // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
-          // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
-          return of(FUTURE_WEATHER)
-            .pipe(
-              tap((data: FutureResultObject) => {
-                const action = AppActions.SetFutureWeather({ data })
-                this.store.dispatch(action)
-              })
-            )
-        }))
+            // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
+            // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
+            return of(FUTURE_WEATHER)
+              .pipe(
+                tap((data: FutureResultObject) => {
+                  const action = AppActions.SetFutureWeather({ data })
+                  this.store.dispatch(action)
+                })
+              )
+          }))
 
 
       }))
