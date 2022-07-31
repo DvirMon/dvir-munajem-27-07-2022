@@ -11,7 +11,7 @@ import { WeatherService } from 'src/app/utilities/services/weather.service';
 import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
 import { Store } from '@ngrx/store';
 
-import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, Subject, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, filter, map, merge, Observable, pipe, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
 
@@ -46,6 +46,34 @@ export class LobbyComponent implements OnInit {
     this.options$ = this._getLocationOptions();
     this.weatherResult$ = this._getWeatherResult();
     this.metric$ = this.store.select(AppSelectors.isMetric);
+
+    this.getLocation().
+      pipe(
+        map((res: GeolocationPosition) => {
+          return { lat: res.coords.latitude, lon: res.coords.longitude }
+        }))
+      .subscribe((
+        {
+          next: (res) => console.log(res),
+          error: (err) => console.log(err)
+        }))
+
+
+
+  }
+
+  getLocation(): Observable<any> {
+    return new Observable(obs => {
+      navigator.geolocation.getCurrentPosition(
+        success => {
+          obs.next(success);
+          obs.complete();
+        },
+        error => {
+          obs.error(error);
+        }
+      );
+    });
   }
 
   private _initOptions(): Observable<AutocompleteOption[]> {
