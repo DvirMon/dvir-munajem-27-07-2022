@@ -17,7 +17,7 @@ export const currentWeatherResult = createSelector(root, (state) =>
 export const futureWeatherResults = createSelector(root, (state) =>
   state.futureWeatherResults)
 
-  export const selectedResult = createSelector(root, (state) => state.selectedResult)
+export const selectedResult = createSelector(root, (state) => state.selectedResult)
 
 export const currentResult = createSelector(root, (state) => {
   const { currentWeatherResults, selectedResult } = state
@@ -67,6 +67,10 @@ export const hasFavorites = createSelector(root, (state) => state.favorites.size
 
 export const isMetric = createSelector(root, (state) => {
   return state.metric
+})
+
+export const isGeo = createSelector(root, (state) => {
+  return state.geolocation
 })
 
 export const weatherResult = createSelector(root, currentResult, futureResult, isFavorites, (state, current: Partial<WeatherResult>, future: Partial<WeatherResult>, favorite: boolean) => {

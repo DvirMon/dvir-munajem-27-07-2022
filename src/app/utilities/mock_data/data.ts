@@ -1,6 +1,7 @@
 import { AutocompleteResult } from "../models/autocomplete-result";
 import { CurrentWeatherResult } from "../models/current-weather-result";
 import { FutureResultObject } from "../models/future-weather-result";
+import { GeolocationWeatherResult } from "../models/geolocation-weather-result";
 
 
 export const LOCATIONS_AUTOCOMPLETE: AutocompleteResult[] = [
@@ -383,4 +384,35 @@ export const FUTURE_WEATHER: FutureResultObject = {
       Link: "http://www.accuweather.com/en/il/tel-aviv/215854/daily-weather-forecast/215854?day=5&lang=en-us"
     }
   ]
+}
+
+export const GEOLOCATION_DATA: GeolocationWeatherResult =
+{
+  Version: 1,
+  Key: '212575',
+  Type: 'City',
+  Rank: 55,
+  LocalizedName: 'Rosh HaAyin',
+  EnglishName: 'Rosh HaAyin',
+  Country: {
+    ID: 'IL',
+    LocalizedName: 'Israel',
+    EnglishName: 'Israel'
+  },
+  GeoPosition: {
+    Latitude: 32.094,
+    Longitude: 34.946,
+    Elevation: {
+      Metric: {
+        Value: 29.0,
+        Unit: 'm',
+        UnitType: 5
+      },
+      Imperial: {
+        Value: 95.0,
+        Unit: 'ft',
+        UnitType: 0
+      }
+    }
+  },
 }

@@ -52,5 +52,10 @@ export const appReducer = createReducer(
   on(AppActions.SetDegree, (state, action) => ({
     ...state,
     metric: action.data
+  })),
+
+  on(AppActions.UpdateGeolocation, (state, action) => ({
+    ...state,
+    geolocation: action.data
   }))
 );

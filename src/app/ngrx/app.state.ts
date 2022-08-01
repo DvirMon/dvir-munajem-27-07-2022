@@ -14,6 +14,7 @@ export interface AppState {
   futureWeather: FutureResultObject | null
   favorites: Map<number, FavoriteCard>
   metric: boolean
+  geolocation: boolean
 
 }
 
@@ -24,5 +25,6 @@ export const initialAppState: AppState = {
   futureWeatherResults: {},
   futureWeather: null,
   favorites: new Map<number, FavoriteCard>(),
-  metric: true
+  metric: true,
+  geolocation: true
 };

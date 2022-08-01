@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
-import { CURRENT_WEATHER, FUTURE_WEATHER, LOCATIONS_AUTOCOMPLETE } from '../mock_data/data';
+import { CURRENT_WEATHER, FUTURE_WEATHER, GEOLOCATION_DATA, LOCATIONS_AUTOCOMPLETE } from '../mock_data/data';
 
 import { AutocompleteResult } from '../models/autocomplete-result';
 import { CurrentWeatherResult } from '../models/current-weather-result';
@@ -14,7 +14,7 @@ import { WeatherResult } from 'src/app/shared/components/weather-result/weather-
 import { Store } from '@ngrx/store';
 import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
 
-import { combineLatest, filter, map, merge, Observable, of, switchMap, take, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, filter, map, merge, Observable, of, switchMap, take, tap } from 'rxjs';
 import { GeolocationWeatherResult, GeoPosition } from '../models/geolocation-weather-result';
 
 @Injectable({
@@ -33,16 +33,16 @@ export class WeatherService {
 
   private _getLocationAutocomplete(query: string): Observable<AutocompleteResult[]> {
 
-    const data = LOCATIONS_AUTOCOMPLETE.filter((item: AutocompleteResult) => item.LocalizedName.toLowerCase().includes(query.toLowerCase()));
-    const action = AppActions.SetSearchResult({ data });
-    this.store.dispatch(action);
-    return of(data);
-    // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
-    // return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
-    //   tap((data: AutocompleteResult[]) => {
-    //     const action = AppActions.SetSearchResult({ data })
-    //     this.store.dispatch(action)
-    //   }))
+    // const data = LOCATIONS_AUTOCOMPLETE.filter((item: AutocompleteResult) => item.LocalizedName.toLowerCase().includes(query.toLowerCase()));
+    // const action = AppActions.SetSearchResult({ data });
+    // this.store.dispatch(action);
+    // return of(data);
+    const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
+    return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
+      tap((data: AutocompleteResult[]) => {
+        const action = AppActions.SetSearchResult({ data })
+        this.store.dispatch(action)
+      }))
   }
 
   getLocationOptions(query: string): Observable<AutocompleteOption[]> {
@@ -62,7 +62,7 @@ export class WeatherService {
       switchMap(() => {
         // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
         // return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
-          return of(CURRENT_WEATHER)
+        return of(CURRENT_WEATHER)
           .pipe(
             map((data: CurrentWeatherResult[]) => {
               const action = AppActions.SetCurrentWeather({ data: data[0], id: locationKey })
@@ -95,7 +95,7 @@ export class WeatherService {
 
         // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
         // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
-          return of(FUTURE_WEATHER)
+        return of(FUTURE_WEATHER)
           .pipe(
             tap((data: FutureResultObject) => {
               const action = AppActions.SetFutureWeather({ data, id: locationKey })
@@ -151,23 +151,51 @@ export class WeatherService {
     }
   }
 
+  private _getGeolocation(): Observable<any> {
+    return new Observable(obs => {
+      navigator.geolocation.getCurrentPosition(
+        success => {
+          obs.next(success);
+          obs.complete();
+        },
+        error => {
+          obs.error(error);
+        }
+      );
+    });
+  }
 
 
-  getGeolocationWeather(position$: Observable<GeoPosition>): Observable<GeolocationWeatherResult> {
+
+  getGeolocationWeather(): Observable<WeatherResult> {
 
     const url: string = this._baseUrl + 'locations/v1/cities/geoposition/search'
 
-    return position$.pipe(map((position: GeoPosition) => {
-      const lat = position.Latitude
-      const lot = position.Longitude
-      return `${lat},${lot}`
-    }),
-      switchMap((query: string) => {
-        const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('q', query)
-        return this.http.get<GeolocationWeatherResult>(url, { params }).pipe(
-          tap((res) => console.log(res)))
-      })
-    )
+    return this._getGeolocation()
+      .pipe(
+        map((position: GeolocationPosition) => {
+          const lat = position.coords.latitude
+          const lot = position.coords.longitude
+          return `${lat},${lot}`
+        }),
+        distinctUntilChanged(),
+        switchMap((query: string) => {
+          // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('q', query)
+          // return this.http.get<GeolocationWeatherResult>(url, { params }).pipe(
+          //   tap((res) => console.log(res)))
+
+          return of(GEOLOCATION_DATA).pipe(
+            tap((data) => console.log(data)),
+            map((res: GeolocationWeatherResult) => {
+              return {
+                id: Number(res.Key),
+                location: res.LocalizedName,
+              } as WeatherResult
+            })
+          )
+
+        })
+      )
 
 
   }
