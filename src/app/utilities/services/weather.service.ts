@@ -60,9 +60,9 @@ export class WeatherService {
 
       filter((data) => !data.hasOwnProperty(locationKey)),
       switchMap(() => {
-        const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
-        return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
-        // return of(CURRENT_WEATHER)
+        // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
+        // return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
+          return of(CURRENT_WEATHER)
           .pipe(
             map((data: CurrentWeatherResult[]) => {
               const action = AppActions.SetCurrentWeather({ data: data[0], id: locationKey })
@@ -93,9 +93,9 @@ export class WeatherService {
     ), metric$])
       .pipe(switchMap(([data, metric]) => {
 
-        const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
-        return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
-        // return of(FUTURE_WEATHER)
+        // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
+        // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
+          return of(FUTURE_WEATHER)
           .pipe(
             tap((data: FutureResultObject) => {
               const action = AppActions.SetFutureWeather({ data, id: locationKey })
@@ -155,7 +155,7 @@ export class WeatherService {
 
   getGeolocationWeather(position$: Observable<GeoPosition>): Observable<GeolocationWeatherResult> {
 
-    const url: string = 'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search'
+    const url: string = this._baseUrl + 'locations/v1/cities/geoposition/search'
 
     return position$.pipe(map((position: GeoPosition) => {
       const lat = position.Latitude
