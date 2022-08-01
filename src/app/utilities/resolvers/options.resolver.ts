@@ -37,10 +37,6 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
         }))
   }
 
-  private _getDataFromGeolocation(): Observable<string> {
-    return this.weatherService.getGeolocationWeather().pipe(map((res) => res.location))
-  }
-
   private _getLocationOptions(location: string) {
     return this.weatherService.getLocationOptions(location).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -60,7 +56,7 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
     const geolocation$ = isGeolocation$.pipe(
       filter((value) => value),
       switchMap(() =>
-        this._getDataFromGeolocation()
+        this.weatherService.getGeolocationWeather()
       )
     )
 

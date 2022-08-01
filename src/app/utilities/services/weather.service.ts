@@ -167,32 +167,33 @@ export class WeatherService {
 
 
 
-  getGeolocationWeather(): Observable<WeatherResult> {
+  getGeolocationWeather(): Observable<string> {
 
     const url: string = this._baseUrl + 'locations/v1/cities/geoposition/search'
 
-    return of(GEOLOCATION_DATA).pipe(
-      // return this._getGeolocation()
-      //   .pipe(
-      //     map((position: GeolocationPosition) => {
-      //       const lat = position.coords.latitude
-      //       const lot = position.coords.longitude
-      //       return `${lat},${lot}`
-      //     }),
-      //     distinctUntilChanged(),
-      //     switchMap((query: string) => {
-      //       const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('q', query)
-      //       return this.http.get<GeolocationWeatherResult>(url, { params }).pipe(
-      map((res: GeolocationWeatherResult) => {
-        return {
-          id: Number(res.Key),
-          location: res.LocalizedName,
-        } as WeatherResult
-      })
-    )
-
+    return this._getGeolocation()
+      .pipe(
+        map((position: GeolocationPosition) => {
+          const lat = position.coords.latitude
+          const lot = position.coords.longitude
+          return `${lat},${lot}`
+        }),
+        distinctUntilChanged(),
+        switchMap((query: string) => {
+          const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('q', query)
+          return this.http.get<GeolocationWeatherResult>(url, { params }).pipe(
+            map((res: GeolocationWeatherResult) => res.LocalizedName
+            ))
+        }))
+    // return of(GEOLOCATION_DATA).pipe(
+    //   map((res: GeolocationWeatherResult) => {
+    //     return {
+    //       id: Number(res.Key),
+    //       location: res.LocalizedName,
+    //     } as WeatherResult
     //   })
     // )
+
 
 
   }
