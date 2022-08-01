@@ -33,16 +33,16 @@ export class WeatherService {
 
   private _getLocationAutocomplete(query: string): Observable<AutocompleteResult[]> {
 
-    // const data = LOCATIONS_AUTOCOMPLETE.filter((item: AutocompleteResult) => item.LocalizedName.toLowerCase().includes(query.toLowerCase()));
-    // const action = AppActions.SetSearchResult({ data });
-    // this.store.dispatch(action);
-    // return of(data);
-    const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
-    return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
-      tap((data: AutocompleteResult[]) => {
-        const action = AppActions.SetSearchResult({ data })
-        this.store.dispatch(action)
-      }))
+    const data = LOCATIONS_AUTOCOMPLETE.filter((item: AutocompleteResult) => item.LocalizedName.toLowerCase().includes(query.toLowerCase()));
+    const action = AppActions.SetSearchResult({ data });
+    this.store.dispatch(action);
+    return of(data);
+    // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
+    // return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
+    // tap((data: AutocompleteResult[]) => {
+    //   const action = AppActions.SetSearchResult({ data })
+    //   this.store.dispatch(action)
+    // }))
   }
 
   getLocationOptions(query: string): Observable<AutocompleteOption[]> {
@@ -171,28 +171,28 @@ export class WeatherService {
 
     const url: string = this._baseUrl + 'locations/v1/cities/geoposition/search'
 
-    return this._getGeolocation()
-      .pipe(
-        map((position: GeolocationPosition) => {
-          const lat = position.coords.latitude
-          const lot = position.coords.longitude
-          return `${lat},${lot}`
-        }),
-        distinctUntilChanged(),
-        switchMap((query: string) => {
-          const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('q', query)
-          return this.http.get<GeolocationWeatherResult>(url, { params }).pipe(
-          // return of(GEOLOCATION_DATA).pipe(
-            map((res: GeolocationWeatherResult) => {
-              return {
-                id: Number(res.Key),
-                location: res.LocalizedName,
-              } as WeatherResult
-            })
-          )
+    return of(GEOLOCATION_DATA).pipe(
+      // return this._getGeolocation()
+      //   .pipe(
+      //     map((position: GeolocationPosition) => {
+      //       const lat = position.coords.latitude
+      //       const lot = position.coords.longitude
+      //       return `${lat},${lot}`
+      //     }),
+      //     distinctUntilChanged(),
+      //     switchMap((query: string) => {
+      //       const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('q', query)
+      //       return this.http.get<GeolocationWeatherResult>(url, { params }).pipe(
+      map((res: GeolocationWeatherResult) => {
+        return {
+          id: Number(res.Key),
+          location: res.LocalizedName,
+        } as WeatherResult
+      })
+    )
 
-        })
-      )
+    //   })
+    // )
 
 
   }

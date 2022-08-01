@@ -59,7 +59,6 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
 
     const geolocation$ = isGeolocation$.pipe(
       filter((value) => value),
-       tap(() => console.log('geolocation option')),
       switchMap(() =>
         this._getDataFromGeolocation()
       )
@@ -67,7 +66,6 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
 
     const serverLocation$ = isGeolocation$.pipe(
       filter((value) => !value),
-      tap(() => console.log('server option')),
       switchMap(() => this._getDataFromSelectedResult(selectedResult$, searchResult$))
     )
 
@@ -97,15 +95,6 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<AutocompleteOption[]> | Promise<AutocompleteOption[]> | AutocompleteOption[] {
-
-    // const server$ = selectedResult$
-    //   .pipe(
-    //     switchMap((res: Partial<WeatherResult>) => {
-    //       return searchResult$
-    //         .pipe(
-    //           filter((items: AutocompleteResult[]) => !items.find((item: AutocompleteResult) => Number(item.Key) === res.id!)),
-    //           switchMap((items: AutocompleteResult[]) => this._getLocationOptions(res.location!)))
-    //     }))
 
 
     const server$ = this._getServerLocation()
