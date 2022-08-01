@@ -47,35 +47,9 @@ export class LobbyComponent implements OnInit {
     this.options$ = this._getLocationOptions();
     this.weatherResult$ = this._getWeatherResult();
     this.metric$ = this.store.select(AppSelectors.isMetric);
-
-    this.getLocation().
-      pipe(
-        map((res: GeolocationPosition) => {
-          return { lat: res.coords.latitude, lon: res.coords.longitude }
-        }))
-      .subscribe((
-        {
-          next: (res) => console.log(res),
-          error: (err) => console.log(err)
-        }))
-
-
-
   }
 
-  getLocation(): Observable<any> {
-    return new Observable(obs => {
-      navigator.geolocation.getCurrentPosition(
-        success => {
-          obs.next(success);
-          obs.complete();
-        },
-        error => {
-          obs.error(error);
-        }
-      );
-    });
-  }
+
 
   private _initOptions(): Observable<AutocompleteOption[]> {
     return this.activatedRoute.data.pipe(
