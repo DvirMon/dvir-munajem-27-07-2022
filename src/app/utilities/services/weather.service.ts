@@ -180,12 +180,9 @@ export class WeatherService {
         }),
         distinctUntilChanged(),
         switchMap((query: string) => {
-          // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('q', query)
-          // return this.http.get<GeolocationWeatherResult>(url, { params }).pipe(
-          //   tap((res) => console.log(res)))
-
-          return of(GEOLOCATION_DATA).pipe(
-            tap((data) => console.log(data)),
+          const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('q', query)
+          return this.http.get<GeolocationWeatherResult>(url, { params }).pipe(
+          // return of(GEOLOCATION_DATA).pipe(
             map((res: GeolocationWeatherResult) => {
               return {
                 id: Number(res.Key),

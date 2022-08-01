@@ -6,12 +6,12 @@ import { ToastrService } from "ngx-toastr";
 
 import { AutocompleteOption } from "../models/autocomplete-option";
 import { AutocompleteResult } from "../models/autocomplete-result";
+import { WeatherResult } from "src/app/shared/components/weather-result/weather-result.component";
 import { WeatherService } from "../services/weather.service";
 
 import { Store } from "@ngrx/store";
 import { AppActions, AppSelectors } from "src/app/ngrx/app.types";
 import { catchError, distinctUntilChanged, filter, map, merge, Observable, switchMap, take, tap, throwError } from "rxjs";
-import { WeatherResult } from "src/app/shared/components/weather-result/weather-result.component";
 
 @Injectable({ providedIn: 'root' })
 export class WeatherResolver implements Resolve<AutocompleteOption[]> {
