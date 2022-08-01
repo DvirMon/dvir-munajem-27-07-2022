@@ -177,14 +177,7 @@ export class WeatherService {
             map((res: GeolocationWeatherResult) => res.LocalizedName
             ))
         }))
-    // return of(GEOLOCATION_DATA).pipe(
-    //   map((res: GeolocationWeatherResult) => {
-    //     return {
-    //       id: Number(res.Key),
-    //       location: res.LocalizedName,
-    //     } as WeatherResult
-    //   })
-    // )
+  
 
 
 
