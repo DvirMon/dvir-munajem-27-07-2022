@@ -22,6 +22,21 @@ export const LOCATIONS_AUTOCOMPLETE: AutocompleteResult[] = [
   },
   {
     Version: 1,
+    Key: "212575",
+    Type: "City",
+    Rank: 10,
+    LocalizedName: "Rosh HaAyin",
+    Country: {
+      ID: "JP",
+      LocalizedName: "Isreal"
+    },
+    AdministrativeArea: {
+      ID: "13",
+      LocalizedName: "Rosh HaAyin"
+    }
+  },
+  {
+    Version: 1,
     Key: "106770",
     Type: "City",
     Rank: 11,
@@ -155,24 +170,6 @@ export const LOCATIONS_AUTOCOMPLETE: AutocompleteResult[] = [
       LocalizedName: "Zhejiang"
     }
   },
-  {
-    Version: 1,
-    Key: "215854",
-    Type: "City",
-    Rank: 31,
-    LocalizedName: "Tel Aviv",
-    Country: {
-      ID: "IL",
-      LocalizedName: "Israel"
-    },
-    AdministrativeArea: {
-      ID: "TA",
-      LocalizedName: "Tel Aviv"
-    }
-  }
-]
-
-export const DEFAULT_AUTOCOMPLETE: AutocompleteResult[] = [
   {
     Version: 1,
     Key: "215854",
