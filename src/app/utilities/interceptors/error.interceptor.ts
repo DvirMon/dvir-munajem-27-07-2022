@@ -4,33 +4,39 @@ import {
   HttpHandler,
   HttpEvent,
   HttpErrorResponse,
+  HttpResponse,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError, tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable, catchError, throwError, map } from 'rxjs';
+import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+
+  private spinnerService: SpinnerService = inject(SpinnerService)
 
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
 
-    return next.handle(request).pipe(
-      // tap(() => console.log(request)),
-      catchError((error: HttpErrorResponse) => {
-        let errorMsg = '';
-        if (error.error instanceof ErrorEvent) {
-          // console.log('This is client side error');
-          errorMsg = `Error: ${error.error.message}`;
-        } else {
-          // console.log('This is server side error');
-          errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
-        }
-        return throwError(() => error);
-      })
-    );
+
+    this.spinnerService.show()
+
+    return next.handle(request)
+      .pipe(
+        map((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+            this.spinnerService.hide()
+          }
+          return event;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.spinnerService.hide()
+          return throwError(() => error);
+        })
+      );
 
   }
 
