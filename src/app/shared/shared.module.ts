@@ -10,11 +10,13 @@ import { HighLightPipe } from './pipes/high-light.pipe';
 import { DegreePipe } from './pipes/degree.pipe';
 import { TemperaturePipe } from './pipes/temperature.pipe';
 import { DailyTemperaturePipe } from './pipes/daily-temperature.pipe';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
     WeatherResultComponent,
     PageNotFoundComponent,
+    SpinnerComponent,
     PluckPipe,
     HighLightPipe,
     DegreePipe,
@@ -35,12 +37,13 @@ import { DailyTemperaturePipe } from './pipes/daily-temperature.pipe';
 
     WeatherResultComponent,
     PageNotFoundComponent,
+    SpinnerComponent,
 
     PluckPipe,
     HighLightPipe,
     DegreePipe,
     TemperaturePipe,
-    DailyTemperaturePipe
+    DailyTemperaturePipe,
   ],
 })
 export class SharedModule {}
