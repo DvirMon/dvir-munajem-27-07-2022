@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
 
 import { combineLatest, distinctUntilChanged, filter, map, merge, Observable, of, switchMap, take, tap } from 'rxjs';
-import { GeolocationWeatherResult, GeoPosition } from '../models/geolocation-weather-result';
+import { GeolocationWeatherResult } from '../models/geolocation-weather-result';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class WeatherService {
 
   constructor(
     private http: HttpClient,
-    private store: Store<any>
+    private store: Store<any>,
   ) {
   }
 
@@ -33,10 +33,10 @@ export class WeatherService {
 
     const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
     return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
-    tap((data: AutocompleteResult[]) => {
-      const action = AppActions.SetSearchResult({ data })
-      this.store.dispatch(action)
-    }))
+      tap((data: AutocompleteResult[]) => {
+        const action = AppActions.SetSearchResult({ data })
+        this.store.dispatch(action)
+      }))
   }
 
   getLocationOptions(query: string): Observable<AutocompleteOption[]> {
@@ -177,7 +177,7 @@ export class WeatherService {
             map((res: GeolocationWeatherResult) => res.LocalizedName
             ))
         }))
-  
+
 
 
 

@@ -18,9 +18,7 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
 
 
   constructor(
-    private router: Router,
     private weatherService: WeatherService,
-    private toastrService: ToastrService,
     private store: Store<any>
   ) { }
 
@@ -37,32 +35,27 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
         }))
   }
 
-  private _getLocationOptions(location: string) {
-    return this.weatherService.getLocationOptions(location).pipe(
-      catchError((error: HttpErrorResponse) => {
-        this.toastrService.error(error.message, 'An unexpected error ocurred');
-        this.router.navigate(['error'])
-        sessionStorage.setItem('errorMessage', 'An unexpected error ocurred. Please Try again later')
-        return throwError(() => error);
-      })
-    )
-  }
-
   private _getServerLocation() {
     const selectedResult$ = this.store.select(AppSelectors.selectedResult)
     const searchResult$ = this.store.select(AppSelectors.searchResult).pipe(take(1))
     const isGeolocation$ = this.store.select(AppSelectors.isGeo).pipe(take(1))
 
-    const geolocation$ = isGeolocation$.pipe(
-      filter((value) => value),
-      switchMap(() =>
-        this.weatherService.getGeolocationWeather()
-      )
-    )
-
     const serverLocation$ = isGeolocation$.pipe(
       filter((value) => !value),
       switchMap(() => this._getDataFromSelectedResult(selectedResult$, searchResult$))
+    )
+
+    const geolocation$ = isGeolocation$.pipe(
+      filter((value) => value),
+      switchMap(() =>
+        this.weatherService.getGeolocationWeather().pipe(
+          catchError((_) => {
+            const action = AppActions.UpdateGeolocation({ data: false })
+            this.store.dispatch(action)
+            return serverLocation$;
+          })
+        )
+      )
     )
 
     return merge(geolocation$, serverLocation$)
@@ -96,10 +89,12 @@ export class WeatherResolver implements Resolve<AutocompleteOption[]> {
     const server$ = this._getServerLocation()
       .pipe(
         tap(() => {
+
+
           const action = AppActions.UpdateGeolocation({ data: false })
           this.store.dispatch(action)
         }),
-        switchMap((location) => this._getLocationOptions(location!))
+        switchMap((location) => this.weatherService.getLocationOptions(location))
       )
 
     const local$ = this._getLocalLocation()
