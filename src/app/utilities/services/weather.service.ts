@@ -12,7 +12,7 @@ import { WeatherResult } from 'src/app/shared/components/weather-result/weather-
 import { Store } from '@ngrx/store';
 import { AppActions, AppSelectors } from 'src/app/ngrx/app.types';
 
-import { combineLatest, distinctUntilChanged, filter, map, merge, Observable, of, switchMap, take, tap } from 'rxjs';
+import { combineLatest, distinctUntilChanged, filter, map, merge, Observable,  switchMap, take, tap } from 'rxjs';
 import { GeolocationWeatherResult } from '../models/geolocation-weather-result';
 
 @Injectable({
