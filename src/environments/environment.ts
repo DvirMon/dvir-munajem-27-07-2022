@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   accuWeatherAPIKey : 'gMWKkCx6xc7jCMbSjHHA5nCnKVSwkOJw',
-  weatherEndpoint : 'http://dataservice.accuweather.com/',
+  weatherEndpoint : 'https://dataservice.accuweather.com/',
 };
 
 /*
