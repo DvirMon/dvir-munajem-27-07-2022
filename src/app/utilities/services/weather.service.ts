@@ -2,8 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
-import { CURRENT_WEATHER, FUTURE_WEATHER, GEOLOCATION_DATA, LOCATIONS_AUTOCOMPLETE } from '../mock_data/data';
-
 import { AutocompleteResult } from '../models/autocomplete-result';
 import { CurrentWeatherResult } from '../models/current-weather-result';
 import { AutocompleteOption } from '../models/autocomplete-option';
@@ -33,10 +31,6 @@ export class WeatherService {
 
   private _getLocationAutocomplete(query: string): Observable<AutocompleteResult[]> {
 
-    // const data = LOCATIONS_AUTOCOMPLETE.filter((item: AutocompleteResult) => item.LocalizedName.toLowerCase().includes(query.toLowerCase()));
-    // const action = AppActions.SetSearchResult({ data });
-    // this.store.dispatch(action);
-    // return of(data);
     const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
     return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
     tap((data: AutocompleteResult[]) => {
@@ -62,7 +56,6 @@ export class WeatherService {
       switchMap(() => {
         const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
         return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
-        // return of(CURRENT_WEATHER)
           .pipe(
             map((data: CurrentWeatherResult[]) => {
               const action = AppActions.SetCurrentWeather({ data: data[0], id: locationKey })
@@ -95,7 +88,6 @@ export class WeatherService {
 
         const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
         return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
-        // return of(FUTURE_WEATHER)
           .pipe(
             tap((data: FutureResultObject) => {
               const action = AppActions.SetFutureWeather({ data, id: locationKey })
