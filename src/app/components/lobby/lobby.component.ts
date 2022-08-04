@@ -120,8 +120,8 @@ export class LobbyComponent implements OnInit {
     this.store.dispatch(action);
   }
 
-  onDegreeChange({ metric }: UnitChangeEvent): void {
-    const action = AppActions.SetDegree({ data: metric });
+  onunitTempChange({ metric }: UnitChangeEvent): void {
+    const action = AppActions.SetunitTemp({ data: metric });
     this.store.dispatch(action);
 
   }

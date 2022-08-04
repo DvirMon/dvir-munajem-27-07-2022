@@ -49,7 +49,7 @@ export const appReducer = createReducer(
     favorites: deleteFavorites(state.favorites, action.data.id!)
   })),
 
-  on(AppActions.SetDegree, (state, action) => ({
+  on(AppActions.SetunitTemp, (state, action) => ({
     ...state,
     metric: action.data
   })),
