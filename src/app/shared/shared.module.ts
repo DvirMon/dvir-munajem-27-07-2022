@@ -3,14 +3,16 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterielModule } from './materiel/materiel.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { WeatherResultComponent } from './components/weather-result/weather-result.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+
 import { PluckPipe } from './pipes/pluck.pipe';
 import { HighLightPipe } from './pipes/high-light.pipe';
-import { DegreePipe } from './pipes/degree.pipe';
+import { UnitTemperaturePipe } from './pipes/unit-temperature.pipe';
 import { TemperaturePipe } from './pipes/temperature.pipe';
 import { DailyTemperaturePipe } from './pipes/daily-temperature.pipe';
-import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     SpinnerComponent,
     PluckPipe,
     HighLightPipe,
-    DegreePipe,
+    UnitTemperaturePipe,
     TemperaturePipe,
     DailyTemperaturePipe
 
@@ -41,7 +43,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 
     PluckPipe,
     HighLightPipe,
-    DegreePipe,
+    UnitTemperaturePipe,
     TemperaturePipe,
     DailyTemperaturePipe,
   ],

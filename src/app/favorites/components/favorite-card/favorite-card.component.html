@@ -1,16 +1,13 @@
 <ng-container *ngIf="item">
   <mat-card class="favorite">
-    <button
-      mat-button
-      [disableRipple]="true"
-      (click)="onSelect()"
-    >
+    <button mat-button [disableRipple]="true" (click)="onSelect()">
       <mat-card-header fxLayoutAlign="space-between center">
         <span mat-card-title>{{ item.location | titlecase }}</span>
         <span mat-card-subtitle>
-        {{ item.temp! | temperature: metric }}
-        <span [innerHTML]="metric | degree"></span>
-      </span>        <div>
+          {{ item.temp! | temperature: metric }}
+          <span [innerHTML]="metric | siUnit: 'temp'"></span>
+        </span>
+        <div>
           <span>{{ item.description | titlecase }}</span>
         </div>
       </mat-card-header>

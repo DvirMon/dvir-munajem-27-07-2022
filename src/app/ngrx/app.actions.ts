@@ -15,7 +15,7 @@ export const PatchSelectedResult = createAction('[PATCH] Patch Selected result',
 export const SetFavorite = createAction('[SET]  Add favorite location', props<{ data: FavoriteCard }>())
 export const DeleteFavorite = createAction('[CLEAR]  Remove favorite location', props<{ data: FavoriteCard }>())
 
-export const SetDegree = createAction('[SET]  Update Degree Change', props<{ data: boolean }>())
+export const SetunitTemp = createAction('[SET]  Update unit Change', props<{ data: boolean }>())
 
 export const UpdateGeolocation = createAction('[UPDATE] geolocation flag value', props<{ data: boolean }>())
 

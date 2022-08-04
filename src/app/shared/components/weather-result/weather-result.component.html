@@ -4,11 +4,13 @@
       <mat-card-title>{{ weatherResult.location | titlecase }}</mat-card-title>
       <mat-card-subtitle
         >{{ weatherResult.temp! | temperature: metric }}
-        <span [innerHTML]="metric | degree"></span>
+        <span [innerHTML]="metric | siUnit: 'temp'"></span>
       </mat-card-subtitle>
       <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-
-        <mat-button-toggle-group [value]="metric" (change)="onUnitChange($event)">
+        <mat-button-toggle-group
+          [value]="metric"
+          (change)="onUnitChange($event)"
+        >
           <mat-button-toggle [value]="metric">Celsius</mat-button-toggle>
           <mat-button-toggle [value]="!metric">Fahrenheit</mat-button-toggle>
         </mat-button-toggle-group>
@@ -37,7 +39,7 @@
               <span mat-card-title>{{ item.date | date: "EEEE" }}</span>
               <span mat-card-subtitle
                 >{{ item.temp | dailyTemperature }}
-                <span [innerHTML]="metric | degree"></span>
+                <span [innerHTML]="metric | siUnit: 'temp'"></span>
               </span>
             </mat-card-header>
           </mat-card>
