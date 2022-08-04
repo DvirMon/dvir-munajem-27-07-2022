@@ -45,7 +45,7 @@
           [weatherResult]="weatherResult"
           [metric]="metric$ | async"
           (selectChanged)="onSelectChange($event)"
-          (degreeChanged)="onDegreeChange($event)"
+          (unitChanged)="onDegreeChange($event)"
         ></app-weather-result>
       </ng-container>
     </main>

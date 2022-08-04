@@ -7,13 +7,17 @@
         <span [innerHTML]="metric | degree"></span>
       </mat-card-subtitle>
       <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-        <button mat-icon-button color="primary" (click)="onDegreeChange()">
-          <span [innerHTML]="metric | degree"></span>
+
+        <mat-button-toggle-group [value]="metric" (change)="onUnitChange($event)">
+          <mat-button-toggle [value]="metric">Celsius</mat-button-toggle>
+          <mat-button-toggle [value]="!metric">Fahrenheit</mat-button-toggle>
+        </mat-button-toggle-group>
+
+        <button mat-icon-button (click)="onSelectChange()">
+          <mat-icon [class.selected]="weatherResult.favorite"
+            >favorite</mat-icon
+          >
         </button>
-        <button mat-button (click)="onSelectChange()">
-          {{ weatherResult.favorite ? "Unlike" : "Like!" }}
-        </button>
-        <mat-icon [class.selected]="weatherResult.favorite">favorite</mat-icon>
       </div>
     </mat-card-header>
     <mat-card-content fxLayoutGap="1rem">

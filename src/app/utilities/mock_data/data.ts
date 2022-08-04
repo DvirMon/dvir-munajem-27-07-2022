@@ -4,7 +4,7 @@ import { FutureResultObject } from "../models/future-weather-result";
 import { GeolocationWeatherResult } from "../models/geolocation-weather-result";
 
 
-export const LOCATIONS_AUTOCOMPLETE: AutocompleteResult[] = [
+export const LOCATIONS_AUTOCOMPLETE_RESULT: AutocompleteResult[] = [
   {
     Version: 1,
     Key: "226396",
@@ -187,7 +187,7 @@ export const LOCATIONS_AUTOCOMPLETE: AutocompleteResult[] = [
   }
 ]
 
-export const CURRENT_WEATHER: CurrentWeatherResult[] = [
+export const CURRENT_WEATHER_RESULT: CurrentWeatherResult[] = [
   {
     LocalObservationDateTime: new Date('2022-07-28T15:28:00+03:00'),
     EpochTime: 1659011280,
@@ -212,7 +212,7 @@ export const CURRENT_WEATHER: CurrentWeatherResult[] = [
     Link: 'http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us'
   }
 ]
-export const FUTURE_WEATHER: FutureResultObject = {
+export const FUTURE_WEATHER_RESULT: FutureResultObject = {
   Headline: {
     EffectiveDate: new Date('2022-07-28T14:00:00+03:00'),
     EffectiveEpochDate: 1659006000,
