@@ -33,11 +33,9 @@ export class WeatherService {
 
   private _getLocationAutocomplete(query: string): Observable<AutocompleteResult[]> {
 
-    const data = LOCATIONS_AUTOCOMPLETE_RESULT
-
     const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
     return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
-    // return of(data).pipe(
+    // return of(LOCATIONS_AUTOCOMPLETE_RESULT).pipe(
       tap((data: AutocompleteResult[]) => {
         const action = AppActions.SetSearchResult({ data })
         this.store.dispatch(action)
