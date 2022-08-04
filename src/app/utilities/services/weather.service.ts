@@ -35,9 +35,9 @@ export class WeatherService {
 
     const data = LOCATIONS_AUTOCOMPLETE_RESULT
 
-    // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
-    // return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
-    return of(data).pipe(
+    const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).set('q', query)
+    return this.http.get<AutocompleteResult[]>(this._baseUrl + 'locations/v1/cities/autocomplete', { params }).pipe(
+    // return of(data).pipe(
       tap((data: AutocompleteResult[]) => {
         const action = AppActions.SetSearchResult({ data })
         this.store.dispatch(action)
@@ -59,9 +59,9 @@ export class WeatherService {
 
       filter((data) => !data.hasOwnProperty(locationKey)),
       switchMap(() => {
-        // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
-        // return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
-        return of(CURRENT_WEATHER_RESULT)
+        const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey)
+        return this.http.get<CurrentWeatherResult[]>(this._baseUrl + 'currentconditions/v1/' + locationKey, { params })
+        // return of(CURRENT_WEATHER_RESULT)
           .pipe(
             map((data: CurrentWeatherResult[]) => {
               const action = AppActions.SetCurrentWeather({ data: data[0], id: locationKey })
@@ -92,9 +92,9 @@ export class WeatherService {
     ), metric$])
       .pipe(switchMap(([data, metric]) => {
 
-        // const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
-        // return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
-        return of(FUTURE_WEATHER_RESULT)
+        const params = new HttpParams().set('apikey', environment.accuWeatherAPIKey).append('metric', metric)
+        return this.http.get<FutureResultObject>(this._baseUrl + 'forecasts/v1/daily/5day/' + locationKey, { params })
+        // return of(FUTURE_WEATHER_RESULT)
           .pipe(
             tap((data: FutureResultObject) => {
               const action = AppActions.SetFutureWeather({ data, id: locationKey })
