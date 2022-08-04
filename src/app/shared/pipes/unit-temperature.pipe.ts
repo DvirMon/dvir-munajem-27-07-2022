@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'unit'
+  name: 'siUnit'
 })
 export class UnitTemperaturePipe implements PipeTransform {
   transform(value: boolean | null, type: 'temp' | 'length' | 'time' | 'amount' | 'mass'): unknown {

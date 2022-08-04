@@ -5,7 +5,7 @@
         <span mat-card-title>{{ item.location | titlecase }}</span>
         <span mat-card-subtitle>
           {{ item.temp! | temperature: metric }}
-          <span [innerHTML]="metric | unit: 'temp'"></span>
+          <span [innerHTML]="metric | siUnit: 'temp'"></span>
         </span>
         <div>
           <span>{{ item.description | titlecase }}</span>
