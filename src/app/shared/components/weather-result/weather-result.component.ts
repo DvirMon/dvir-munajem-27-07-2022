@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Temperature } from 'src/app/utilities/models/current-weather-result';
 import { DailyTemperature } from 'src/app/utilities/models/future-weather-result';
 
@@ -21,7 +22,7 @@ export interface SelectChangeEvent {
   selected: boolean,
   source: Partial<WeatherResult>
 }
-export interface TempChangeEvent {
+export interface UnitChangeEvent {
   metric: boolean,
 }
 
@@ -36,17 +37,10 @@ export class WeatherResultComponent {
   @Input() metric!: boolean | null
 
   @Output() selectChanged: EventEmitter<SelectChangeEvent> = new EventEmitter();
-  @Output() degreeChanged: EventEmitter<TempChangeEvent> = new EventEmitter();
+  @Output() unitChanged: EventEmitter<UnitChangeEvent> = new EventEmitter();
 
   constructor() { }
 
-  onSelectChange(): void {
-    this._emitChange()
-  }
-
-  onDegreeChange() {
-    this.degreeChanged.emit({ metric: !this.metric })
-  }
 
   private _setPartialWeatherResult(): Partial<WeatherResult> {
     return {
@@ -60,6 +54,17 @@ export class WeatherResultComponent {
   private _emitChange() {
     this.selectChanged.emit({ selected: !this.weatherResult.favorite as boolean, source: this._setPartialWeatherResult() })
   }
+
+  onSelectChange(): void {
+    this._emitChange()
+  }
+
+
+  onUnitChange(event: MatButtonToggleChange) {
+    const { value } = event
+    this.unitChanged.emit({ metric: value })
+  }
+
 
 
 

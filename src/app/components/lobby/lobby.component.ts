@@ -3,7 +3,7 @@ import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
 
-import { SelectChangeEvent, TempChangeEvent, WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
+import { SelectChangeEvent, UnitChangeEvent, WeatherResult } from 'src/app/shared/components/weather-result/weather-result.component';
 import { FavoriteCard } from 'src/app/favorites/components/favorite-card/favorite-card.component';
 import { AutocompleteOption } from 'src/app/utilities/models/autocomplete-option';
 import { WeatherService } from 'src/app/utilities/services/weather.service';
@@ -120,7 +120,7 @@ export class LobbyComponent implements OnInit {
     this.store.dispatch(action);
   }
 
-  onDegreeChange({ metric }: TempChangeEvent): void {
+  onDegreeChange({ metric }: UnitChangeEvent): void {
     const action = AppActions.SetDegree({ data: metric });
     this.store.dispatch(action);
 
